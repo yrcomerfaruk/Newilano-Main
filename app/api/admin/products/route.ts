@@ -43,6 +43,7 @@ export async function POST(request: NextRequest) {
     return authResult.error;
   }
   const { session } = authResult;
+  const user = session!.user!;
 
   const body = await request.json();
   const {
@@ -134,8 +135,8 @@ export async function POST(request: NextRequest) {
 
   void recordAdminAudit(
     {
-      actorId: session.user.id,
-      actorEmail: session.user.email,
+      actorId: String(user.id ?? user.email),
+      actorEmail: String(user.email ?? ''),
       action: 'product_create',
       resource: product._id.toString(),
       method: request.method,
