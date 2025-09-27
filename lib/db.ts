@@ -7,14 +7,11 @@ interface MongooseCache {
   promise: Promise<typeof mongoose> | null;
 }
 
-const globalCache = global as typeof globalThis & { mongoose?: MongooseCache };
-
-let cached = globalCache.mongoose;
-
-if (!cached) {
-  cached = { conn: null, promise: null };
-  globalCache.mongoose = cached;
-}
+type GlobalWithMongoose = typeof globalThis & { mongoose: MongooseCache };
+const globalWithMongoose = global as GlobalWithMongoose;
+// Initialize global cache if it doesn't exist
+globalWithMongoose.mongoose = globalWithMongoose.mongoose || { conn: null, promise: null };
+const cached: MongooseCache = globalWithMongoose.mongoose;
 
 export async function connectToDatabase() {
   if (cached.conn) {

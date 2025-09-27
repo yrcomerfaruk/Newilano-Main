@@ -8,6 +8,7 @@ async function addHypeTag() {
   const product = await Product.findOne({ tags: { $ne: 'HYPE' } });
 
   if (product) {
+    product.tags = product.tags ?? [];
     product.tags.push('HYPE');
     await product.save();
     console.log(`'HYPE' tag added to product: ${product.name}`);
