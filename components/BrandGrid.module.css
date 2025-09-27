@@ -1,0 +1,94 @@
+.grid {
+  display: grid;
+  gap: 1.5rem;
+  grid-template-columns: 1fr;
+}
+
+@media (min-width: 768px) {
+  .grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+.card {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 1.5rem;
+  background: #ffffff;
+  border-radius: 1.5rem;
+  border: 1px solid rgba(148, 163, 184, 0.18);
+}
+
+.cardHeader {
+  display: flex;
+  align-items: flex-start;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.logoWrap {
+  position: relative;
+  width: 60px;
+  height: 60px;
+  flex-shrink: 0;
+  border-radius: 50%;
+  overflow: hidden;
+  border: 1px solid var(--border);
+}
+
+.logoWrap img {
+  object-fit: contain;
+  padding: 4px;
+}
+
+.nameAndTags {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.brandName {
+  margin: 0;
+  font-size: 17px;
+}
+
+.info {
+  margin: 0;
+  color: var(--text-secondary);
+  font-size: 13px;
+  line-height: 1.6;
+}
+
+.tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+}
+
+.tags span {
+  padding: 0;
+  background: none;
+  border-radius: 0;
+  font-size: 13.5px;
+  color: var(--text-secondary);
+}
+
+.button {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  align-self: flex-end;
+  color: var(--accent);
+  font-weight: 500;
+  font-size: 0.9rem;
+  background: none;
+  border: none;
+  cursor: pointer;
+  transition: opacity 0.2s ease;
+}
+
+.button:hover {
+  opacity: 0.7;
+}

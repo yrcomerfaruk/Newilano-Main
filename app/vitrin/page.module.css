@@ -1,0 +1,152 @@
+.main {
+  padding-bottom: 4rem;
+  display: flex;
+  flex-direction: column;
+  gap: 3rem;
+}
+
+.hero {
+  padding: 3rem 0 2rem;
+  background: var(--surface);
+  border-radius: 0 0 2.5rem 2.5rem;
+}
+
+.heroContent {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  max-width: 640px;
+}
+
+.heroContent h1 {
+  margin: 0;
+  font-size: 27px;
+}
+
+.heroContent p {
+  margin: 0;
+  color: var(--text-secondary);
+  line-height: 1.6;
+  font-size: 15px;
+}
+
+.layout {
+  display: grid;
+  grid-template-columns: minmax(260px, 320px) 1fr;
+  gap: 2rem;
+}
+
+.resultsHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center; /* Revert to center */
+  margin-bottom: 1.5rem;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+}
+
+.resultsTitle {
+  font-size: 14px;
+  font-weight: 600;
+  margin: 0;
+  display: flex; /* Add flex properties to center text within its own box */
+  align-items: center;
+}
+  .headerActions {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .headerButton {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    background: transparent;
+    border: none;
+    border-radius: 999px;
+    padding: 0.5rem 1rem;
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: #111827;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+  }
+
+  .headerButton:hover {
+    background-color: #f3f4f6;
+  }
+
+  .sortWrapper {
+    position: relative;
+  }
+
+  .sortMenu {
+    position: absolute;
+    top: 110%;
+    right: 0;
+    background: #ffffff;
+    border-radius: 1rem;
+    border: 1px solid #e5e7eb;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+    padding: 0.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+    width: max-content;
+    z-index: 10;
+  }
+
+  .sortMenu button {
+    background: transparent;
+    border: none;
+    padding: 0.5rem 1rem;
+    text-align: left;
+    width: 100%;
+    cursor: pointer;
+    border-radius: 0.75rem;
+    font-size: 0.9rem;
+    transition: background-color 0.2s ease;
+  }
+
+  .sortMenu button:hover {
+    background-color: #f3f4f6;
+  }
+
+  .sortMenu .sortActive {
+    font-weight: 600;
+    background-color: #f3f4f6;
+  }
+
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 1.5rem;
+  }
+@media (max-width: 960px) {
+  .layout {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 640px) {
+  .hero {
+    padding: 2.5rem 0 1.8rem;
+  }
+
+  .heroContent h1 {
+    font-size: 27px;
+  }
+
+  .layout {
+    gap: 1.5rem;
+  }
+
+  .resultsHeader {
+  }
+
+  .grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1rem;
+  }
+}

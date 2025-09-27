@@ -1,0 +1,157 @@
+.card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 0; /* Removed gap */
+  border-radius: 0.75rem;
+  border: 1px solid #e5e7eb;
+  background-color: #ffffff;
+  text-decoration: none;
+  color: inherit;
+  overflow: hidden;
+}
+
+.imageWrap {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 4 / 5;
+  overflow: hidden;
+  /* Removed border-radius, will be flush with card edges */
+  background-color: #f3f4f6;
+}
+
+/* Tag badges */
+.badges {
+  position: absolute;
+  top: 0.5rem;
+  left: 0.5rem;
+  display: flex;
+  gap: 0.3rem;
+  z-index: 1;
+}
+
+.badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center; /* yazıyı ortala */
+  padding: 0.1rem 0.3rem; /* biraz daha küçük */
+  border-radius: 999px; /* premium pill */
+  font-size: 0.54rem; /* biraz daha küçük */
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  line-height: 1;
+  color: #ffffff; /* beyaz yazı */
+  background: #0f1012; /* premium siyah/duman */
+  border: 1px solid #2a2a2a; /* ince koyu sınır */
+  text-align: center;
+  box-shadow:
+    inset 0 0 0 1px rgba(255,255,255,0.06),
+    0 2px 8px rgba(17,17,17,0.12);
+}
+
+.badgeHype,
+.badgeOne,
+.badgeNew,
+.badgeSale {
+  background: #0f1012;
+  color: #ffffff;
+  border-color: #2a2a2a;
+}
+
+.image {
+  object-fit: cover;
+}
+
+.info {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+  flex: 1;
+  padding: 0.6rem; /* biraz daha sıkı */
+}
+
+.brand {
+  font-size: 0.6rem; /* biraz daha küçük */
+  color: var(--text-secondary);
+  letter-spacing: 0.1em;
+}
+
+.info h3 {
+  margin: 0;
+  font-size: 0.85rem; /* biraz daha küçük */
+  font-weight: 600;
+  color: var(--text-primary);
+  line-height: 1.3;
+  display: -webkit-box;
+  line-clamp: 2;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  /* min-height kaldırıldı; satır uzunluğu kısıtı kaldırıldı */
+}
+
+.bottomRow {
+  margin-top: auto;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 0.5rem;
+}
+
+.price {
+  font-weight: 600;
+  font-size: 0.85rem; /* biraz daha küçük */
+  color: #111111;
+}
+
+.favoriteButton {
+  position: absolute;
+  top: 0.25rem;
+  right: 0.25rem;
+  z-index: 1;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  border: none;
+  background: transparent;
+  color: #111;
+  display: grid;
+  place-items: center;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  padding: 0;
+}
+
+.favoriteButton:hover {
+  color: #111;
+}
+
+.favoriteButton svg {
+  stroke: currentColor;
+}
+
+.favoriteButtonActive {
+  color: #111;
+}
+
+.removeButton {
+  position: absolute;
+  top: 0.5rem;
+  right: 0.5rem;
+  z-index: 2;
+  width: 1.75rem;
+  height: 1.75rem;
+  border-radius: 999px;
+  border: none;
+  background: rgba(0, 0, 0, 0.4);
+  color: #ffffff;
+  display: grid;
+  place-items: center;
+  cursor: pointer;
+  transition: background-color 0.2s ease, transform 0.2s ease;
+}
+
+.removeButton:hover {
+  background: rgba(0, 0, 0, 0.6);
+  transform: scale(1.1);
+}

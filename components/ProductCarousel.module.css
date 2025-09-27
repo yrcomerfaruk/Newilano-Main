@@ -1,0 +1,105 @@
+.section {
+  margin-top: 2rem;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center; /* Changed to center for better vertical alignment */
+  margin-bottom: 1rem;
+}
+
+.title {
+  font-size: 1.6rem;
+  font-weight: 600;
+  color: #111827;
+  margin: 0;
+}
+
+.headerActions {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.link {
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: #4b5563;
+  text-decoration: none;
+  transition: color 0.2s ease;
+  margin-left: 0.5rem;
+}
+
+.link:hover {
+  color: #111827;
+}
+
+.carouselWrap {
+  /* This is now just a container for the scroller */
+}
+
+.scroller {
+  display: grid;
+  grid-auto-flow: column;
+  grid-auto-columns: 220px;
+  gap: 1.25rem;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  padding: 0.5rem 0.25rem;
+  margin: 0 -0.25rem; /* Offset padding for seamless scroll */
+  scrollbar-width: none;
+}
+
+.scroller::-webkit-scrollbar {
+  display: none;
+}
+
+.scroller > * {
+  scroll-snap-align: start;
+}
+
+.arrow {
+  border: 1px solid #d1d5db;
+  width: 2rem;
+  height: 2rem;
+  border-radius: 999px;
+  background-color: #ffffff;
+  color: #4b5563;
+  font-size: 1rem;
+  display: grid;
+  place-items: center;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.arrow:hover {
+  border-color: #9ca3af;
+  color: #111827;
+  transform: scale(1.05);
+}
+
+@media (max-width: 768px) {
+  .arrow {
+    display: none; /* Hide arrows on mobile */
+  }
+
+  .scroller {
+    grid-auto-columns: 180px;
+    gap: 1rem;
+  }
+
+  .title {
+    font-size: 1.25rem;
+  }
+
+  .link {
+    font-size: 0.85rem;
+  }
+}
+
+@media (max-width: 600px) {
+  .section {
+    margin-top: 2.5rem;
+  }
+}

@@ -1,0 +1,260 @@
+.section {
+  display: grid;
+  grid-template-columns: minmax(300px, 520px) 1fr; /* yatay genişliği sınırla */
+  gap: clamp(1.25rem, 3.5vw, 2.5rem); /* sütunlar arası boşluğu küçült */
+  align-items: start;
+  margin: 2rem auto 0; /* ortala */
+  max-width: 1120px; /* toplam genişliği sınırla */
+}
+
+.gallery {
+  display: flex;
+  flex-direction: column;
+  gap: 1.2rem;
+  max-width: 520px; /* galeri genişliğini sınırla */
+}
+
+.mainImage {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 4 / 5;
+  border-radius: 1.6rem;
+  overflow: hidden;
+  /* Düz arka plan, gölgesiz */
+  background: #ffffff;
+}
+
+.mainImage img {
+  object-fit: cover;
+}
+
+.thumbnailRow {
+  display: flex;
+  gap: 0.9rem;
+  flex-wrap: nowrap;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none; /* Firefox: hide scrollbar */
+}
+
+.thumbnailRow::-webkit-scrollbar { display: none; }
+
+.thumbnail {
+  position: relative;
+  width: 75px; /* 75x75 px */
+  aspect-ratio: 1;
+  border-radius: 1.1rem;
+  overflow: hidden;
+  background: #f6f7fb;
+  border: 1px solid rgba(148, 163, 184, 0.2);
+  display: inline-flex;
+  flex: 0 0 auto; /* yatay listede sıkışmayı önle */
+  padding: 0;
+  margin: 0;
+  align-items: stretch;
+  justify-content: center;
+  cursor: pointer;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.thumbnail img {
+  object-fit: cover;
+}
+
+.thumbnailActive {
+  border-color: #111111;
+  box-shadow: 0 0 0 4px rgba(17, 17, 17, 0.1);
+}
+
+.thumbnail:focus-visible {
+  outline: 2px solid #111111;
+  outline-offset: 2px;
+}
+
+.info {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  max-width: 560px; /* metin tarafını da sınırla */
+}
+
+.brand {
+  text-transform: none; /* yazıldığı gibi göster */
+  letter-spacing: normal;
+  font-size: 20px; /* sabit boyut */
+  color: var(--text-secondary);
+  margin-bottom: 0.1rem;
+}
+
+.title {
+  margin: 0;
+  font-size: 30px; /* sabit boyut */
+  line-height: 1.1;
+  margin-bottom: 0.15rem; /* fiyata yaklaşsın */
+}
+
+.price {
+  font-size: 20px; /* sabit boyut */
+  font-weight: 700;
+  margin: 0.1rem 0 0; /* başlığa yakın */
+}
+
+.description {
+  margin: 0;
+  color: var(--text-secondary);
+  line-height: 1.7;
+}
+
+.ctaGroup {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.primaryButton,
+.secondaryButton {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.85rem 1.9rem;
+  border-radius: 999px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
+}
+
+.primaryButton {
+  background: #111111;
+  color: #ffffff;
+  border: 1px solid #111111;
+}
+
+.primaryButton:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 15px 30px rgba(17, 17, 17, 0.25);
+}
+
+.secondaryButton {
+  background: #ffffff;
+  color: #111111;
+  border: 1px solid rgba(17, 17, 17, 0.2);
+}
+
+.secondaryButton:hover {
+  border-color: #111111;
+  transform: translateY(-2px);
+  box-shadow: 0 12px 25px rgba(17, 17, 17, 0.12);
+}
+
+.secondaryButtonActive {
+  background: #111111;
+  color: #ffffff;
+  border-color: #111111;
+}
+
+.secondaryButtonActive svg {
+  stroke: #ffffff;
+}
+
+.share {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.share span {
+  font-size: 0.95rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: var(--text-secondary);
+}
+
+.metaList {
+  display: grid;
+  gap: 0.9rem;
+}
+
+.metaList div {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  border-bottom: 1px solid rgba(148, 163, 184, 0.2);
+  padding-bottom: 0.5rem;
+}
+
+.metaList span {
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+}
+
+.metaList strong {
+  font-size: 0.95rem;
+}
+
+.features {
+  display: flex;
+  flex-direction: column;
+  gap: 0.65rem;
+}
+
+.features h2 {
+  font-size: 0.95rem;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  margin: 0;
+}
+
+.features ul {
+  margin: 0;
+  padding-left: 1.1rem;
+  color: var(--text-secondary);
+  line-height: 1.6;
+}
+
+@media (max-width: 780px) {
+  .section {
+    grid-template-columns: 1fr; /* küçük ekranlarda tek sütun */
+  }
+  .ctaGroup {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .primaryButton,
+  .secondaryButton {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .metaList div {
+    gap: 1rem;
+  }
+}
+
+@media (max-width: 600px) {
+  .section {
+    gap: 2rem;
+  }
+
+  .mainImage {
+    border-radius: 1.35rem;
+  }
+
+  .thumbnail {
+    width: 75px; /* mobilde de 75px sabit */
+    border-radius: 0.9rem;
+  }
+
+  .title {
+    font-size: 30px;
+  }
+
+  .price {
+    font-size: 20px;
+  }
+
+  .shareList {
+    gap: 0.55rem;
+  }
+}

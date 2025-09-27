@@ -1,0 +1,305 @@
+.header {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background-color: rgba(255, 255, 255, 0.96);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid rgba(229, 231, 235, 0.7);
+}
+
+.inner {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 1.1rem 1.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1.5rem;
+  flex-wrap: nowrap;
+}
+
+.nav {
+  display: flex;
+  align-items: center;
+  gap: 1.25rem;
+  font-size: 0.95rem;
+  font-weight: 500;
+  flex-wrap: nowrap;
+  white-space: nowrap;
+}
+
+.link,
+.linkActive {
+  position: relative;
+  padding: 0.35rem 0.25rem;
+  text-decoration: none;
+  color: #374151;
+  transition: background-color 0.25s ease;
+}
+
+.link:hover {
+  color: #111827;
+}
+
+.linkActive {
+  color: #111827;
+  font-weight: 600;
+}
+
+.linkActive::after {
+  content: '';
+  position: absolute;
+  bottom: -2px;
+  left: 0.25rem;
+  right: 0.25rem;
+  height: 2px;
+  background-color: #111827;
+  border-radius: 2px;
+}
+
+.actions {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+}
+
+.iconButton {
+  width: 2.25rem;
+  height: 2.25rem;
+  border-radius: 999px;
+  border: none;
+  background: transparent;
+  color: #111111;
+  display: grid;
+  place-items: center;
+  transition: none;
+  cursor: pointer;
+}
+
+.iconButton:hover {
+  /* No hover effect */
+}
+
+@media (max-width: 920px) {
+  .inner {
+    padding-inline: 1rem;
+    gap: 1rem;
+    flex-wrap: wrap;
+  }
+
+  .nav {
+    gap: 0.75rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .header {
+    position: relative; /* Ensure stacking context for mobile menu */
+  }
+
+  .inner {
+    justify-content: space-between;
+    padding: 0.9rem 1rem 1.2rem;
+    row-gap: 1rem;
+  }
+
+  .nav {
+    order: 3;
+    width: 100%;
+    justify-content: start;
+    gap: 0.75rem;
+    overflow-x: auto;
+    padding-bottom: 0.25rem;
+    margin-top: 0.25rem;
+    font-size: 0.85rem;
+    flex-wrap: nowrap;
+  }
+
+  .nav::-webkit-scrollbar {
+    display: none;
+  }
+
+  .actions {
+    margin-left: auto;
+    gap: 0.5rem;
+  }
+
+  .iconButton {
+    width: 2rem;
+    height: 2rem;
+  }
+
+  .link,
+  .linkActive {
+    padding: 0.3rem 0.55rem;
+  }
+}
+
+.searchOverlay {
+  position: fixed;
+  inset: 0;
+  z-index: 200;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  padding: 6rem 1.5rem 2rem;
+  background-color: rgba(17, 17, 17, 0.45);
+  backdrop-filter: blur(10px);
+}
+
+.searchPanel {
+  width: min(640px, 100%);
+  background: #ffffff;
+  border-radius: 18px;
+  box-shadow: 0 24px 48px rgba(15, 23, 42, 0.18);
+  padding: 1.25rem 1.35rem 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.searchHeader {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.searchForm {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 0.55rem 0.85rem;
+  border-radius: 999px;
+  border: 1px solid rgba(17, 17, 17, 0.08);
+  background: #f3f4f6;
+}
+
+.searchForm input {
+  flex: 1;
+  border: none;
+  background: transparent;
+  font-size: 0.95rem;
+  color: #111111;
+}
+
+.searchForm input:focus {
+  outline: none;
+}
+
+.searchForm input::-webkit-search-decoration,
+.searchForm input::-webkit-search-cancel-button {
+  -webkit-appearance: none;
+  appearance: none;
+  display: none;
+}
+
+.clearButton,
+.closeButton {
+  display: grid;
+  place-items: center;
+  border: none;
+  background: transparent;
+  color: inherit;
+  cursor: pointer;
+  padding: 0.3rem;
+  border-radius: 999px;
+  transition: background-color 0.2s ease;
+}
+
+.clearButton:hover,
+.closeButton:hover {
+  background-color: rgba(17, 17, 17, 0.08);
+}
+
+.searchContent {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.searchHint,
+.searchEmpty {
+  margin: 0;
+  font-size: 0.9rem;
+  color: #6b7280;
+}
+
+.searchResults {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  max-height: min(60vh, 320px);
+  overflow-y: auto;
+}
+
+.searchResult {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  padding: 0.7rem 0.9rem;
+  border-radius: 12px;
+  border: 1px solid transparent;
+  background: #ffffff;
+  text-decoration: none;
+  color: inherit;
+  transition: border-color 0.2s ease, background-color 0.2s ease, transform 0.15s ease;
+}
+
+.searchResult:hover {
+  border-color: rgba(17, 17, 17, 0.14);
+  background-color: #f9fafb;
+  transform: translateY(-1px);
+}
+
+.searchResultInfo {
+  display: flex;
+  flex-direction: column;
+  gap: 0.1rem;
+}
+
+.searchResultBrand {
+  font-size: 0.75rem;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: #6b7280;
+}
+
+.searchResultName {
+  font-size: 0.95rem;
+  font-weight: 500;
+}
+
+.searchResultPrice {
+  font-size: 0.92rem;
+  font-weight: 500;
+  color: #111111;
+}
+
+.searchAllLink {
+  align-self: flex-start;
+  font-size: 0.92rem;
+  font-weight: 500;
+  color: #111111;
+  text-decoration: none;
+  padding: 0.4rem 0.1rem;
+}
+
+.searchAllLink:hover {
+  text-decoration: underline;
+}
+
+@media (max-width: 768px) {
+  .searchOverlay {
+    padding: 4.5rem 1rem 1.5rem;
+  }
+
+  .searchPanel {
+    border-radius: 16px;
+    padding: 1.1rem 1.1rem 1.35rem;
+  }
+}

@@ -1,0 +1,33 @@
+import { CampaignSection } from '@/components/CampaignSection';
+import { HeroSection } from '@/components/HeroSection';
+import { ProductCarousel } from '@/components/ProductCarousel';
+import { GenderBar } from '@/components/GenderBar';
+import { ProductGridSection } from '@/components/ProductGridSection';
+import styles from './page.module.css';
+import { getCampaigns, getHeroSlides, getProductsByTag } from '@/lib/data';
+import { slugify } from '@/lib/slugify';
+
+export const dynamic = 'force-dynamic';
+
+export default async function Home() {
+  const [hype, featured, newest, discounted, campaignData, heroSlides] = await Promise.all([
+    getProductsByTag('HYPE', 8),
+    getProductsByTag('ONE_CIKAN', 8),
+    getProductsByTag('YENI', 8),
+    getProductsByTag('INDIRIMDE', 8),
+    getCampaigns(3),
+    getHeroSlides()
+  ]);
+
+  return (
+    <main className={styles.main}>
+      <HeroSection slides={heroSlides} />
+      <GenderBar />
+      <ProductCarousel title="En Hype Ürünler" products={hype} viewAllHref="/vitrin?tag=HYPE" />
+      <ProductCarousel title="Öne Çıkan Ürünler" products={featured} viewAllHref="/vitrin?tag=ONE_CIKAN" />
+      <ProductCarousel title="En Yeni Ürünler" products={newest} viewAllHref="/vitrin?tag=YENI" />
+      {discounted.length > 0 && <ProductCarousel title="İndirimdeki Ürünler" products={discounted} viewAllHref="/vitrin?tag=INDIRIMDE" />}
+      {campaignData.length > 0 ? <CampaignSection campaigns={campaignData} /> : null}
+    </main>
+  );
+}

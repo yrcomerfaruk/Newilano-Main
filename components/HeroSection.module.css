@@ -1,0 +1,113 @@
+.hero {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+.slideContainer {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 21 / 9; /* Make it wider */
+  overflow: hidden;
+  border-radius: 1.25rem;
+  background-color: #f3f4f6;
+}
+
+.media {
+  position: absolute;
+  inset: 0;
+}
+
+.media img {
+  object-fit: cover;
+}
+
+.content {
+  padding: 1.5rem 0; /* Reduced padding */
+}
+
+.textBox {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+  color: #111827;
+}
+
+.textBox h1 {
+  font-size: 1.25rem; /* 20px */
+  margin: 0;
+  font-weight: 600;
+}
+
+.textBox p {
+  margin: 0.1rem 0 0;
+  font-size: 0.8125rem; /* 13px */
+  line-height: 1.5;
+  color: #4b5563;
+}
+
+.cta {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.6rem 1.5rem; /* Smaller button */
+  border-radius: 999px;
+  background: #111827;
+  color: #ffffff;
+  font-weight: 500;
+  font-size: 0.9rem;
+  white-space: nowrap;
+  transition: transform 0.25s ease, background-color 0.25s ease;
+}
+
+.cta:hover {
+  transform: translateY(-2px);
+  background: #374151;
+}
+
+.dots {
+  position: absolute;
+  left: 50%;
+  bottom: 1rem;
+  display: flex;
+  gap: 0.75rem; /* Increased gap for underline */
+  transform: translateX(-50%);
+  z-index: 1;
+}
+
+.dot,
+.dotActive {
+  position: relative;
+  width: 0.5rem;
+  height: 0.5rem;
+  border-radius: 999px;
+  border: none;
+  cursor: pointer;
+  background: rgba(255, 255, 255, 0.4);
+  transition: all 0.3s ease;
+}
+
+.dotActive {
+  background: #ffffff;
+  transform: scale(1.15);
+}
+
+@media (max-width: 768px) {
+  .textBox h1 {
+    font-size: 1.25rem; /* 20px */
+  }
+
+  .textBox p {
+    font-size: 0.8125rem; /* 13px */
+  }
+
+  .slideContainer {
+    height: 60vh; /* Set height for mobile */
+  }
+
+  .cta {
+    padding: 0.5rem 1rem;
+    font-size: 0.8rem;
+  }
+}

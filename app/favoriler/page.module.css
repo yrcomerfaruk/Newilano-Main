@@ -1,0 +1,56 @@
+.main {
+  padding-bottom: 4rem;
+  display: flex;
+  flex-direction: column;
+  gap: 3rem;
+}
+
+.hero {
+  padding: 3rem 0 2rem;
+  background: var(--surface);
+  border-radius: 0 0 2.5rem 2.5rem;
+}
+
+.heroContent {
+  max-width: 640px;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.heroContent h1 {
+  margin: 0;
+  font-size: 27px;
+}
+
+.heroContent p {
+  margin: 0;
+  color: var(--text-secondary);
+  line-height: 1.6;
+  font-size: 15px;
+}
+
+.emptyState {
+  padding: 3rem 0;
+  text-align: center;
+  color: var(--text-secondary);
+  font-size: 1rem;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 1.5rem;
+}
+
+@media (max-width: 640px) {
+  .hero {
+    padding: 2.4rem 0 1.8rem;
+  }
+
+
+  .grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.2rem;
+  }
+}

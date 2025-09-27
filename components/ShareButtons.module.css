@@ -1,0 +1,23 @@
+.shareList {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.shareButton {
+  width: 2.4rem;
+  height: 2.4rem;
+  border-radius: 999px;
+  border: 1px solid rgba(148, 163, 184, 0.3);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--text-primary);
+  background: #ffffff;
+  transition: transform 0.2s ease, border-color 0.2s ease;
+}
+
+.shareButton:hover {
+  transform: translateY(-2px);
+  border-color: rgba(17, 17, 17, 0.5);
+}

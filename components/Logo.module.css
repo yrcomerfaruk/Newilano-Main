@@ -1,0 +1,16 @@
+.logo {
+  display: inline-flex;
+  align-items: center;
+  text-decoration: none;
+}
+
+.imageWrap {
+  position: relative;
+  display: block;
+  width: clamp(110px, 15vw, 150px);
+  height: clamp(30px, 4vw, 42px);
+}
+
+.imageWrap img {
+  object-fit: contain;
+}
