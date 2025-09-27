@@ -3,6 +3,11 @@ import { connectToDatabase } from '@/lib/db';
 import { AnnouncementModel } from '@/models/Announcement';
 import { requireAdmin } from '@/lib/auth-helpers';
 
+// Ensure this dynamic API route is not pre-rendered at build time
+export const dynamic = 'force-dynamic';
+export const runtime = 'nodejs';
+export const revalidate = 0;
+
 export async function PATCH(req: NextRequest, { params }: { params: { id: string } }) {
   const auth = await requireAdmin();
   if (!auth.ok) return auth.error;
