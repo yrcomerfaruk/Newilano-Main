@@ -47,7 +47,7 @@ function applySecurityHeaders(response: NextResponse) {
 
   const scriptSrc = isDev
     ? ["'self'", "'unsafe-inline'", "'unsafe-eval'"]
-    : ["'self'"];
+    : ["'self'", "'unsafe-inline'"]; // allow inline scripts in production to avoid blocking Next.js/NextAuth inline snippets
 
   const directives = [
     "default-src 'self'",
