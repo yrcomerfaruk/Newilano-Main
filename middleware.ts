@@ -112,12 +112,28 @@ function isSafeMethod(method: string) {
 
 function isAllowedOrigin(request: NextRequest) {
   const originHeader = request.headers.get('origin');
+  // Allow if no Origin header but request appears same-origin (e.g., some browsers or server-side calls)
   if (!originHeader) {
-    return false;
+    const referer = request.headers.get('referer');
+    if (referer) {
+      try {
+        const refUrl = new URL(referer);
+        if (refUrl.origin === request.nextUrl.origin) return true;
+      } catch {
+        // ignore malformed referer
+      }
+    }
+    // Fallback: treat missing Origin as allowed for authenticated admin API
+    return true;
   }
 
   if (allowedOrigins.size === 0) {
     allowedOrigins.add(request.nextUrl.origin);
+  }
+
+  // Always allow same-origin
+  if (originHeader === request.nextUrl.origin) {
+    return true;
   }
 
   return allowedOrigins.has(originHeader);

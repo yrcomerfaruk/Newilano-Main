@@ -124,6 +124,12 @@ export function VitrinClient({ products }: { products: ProductDetail[] }) {
   const [isFilterOpen, setIsFilterOpen] = useState(false);
   const [isSortMenuOpen, setIsSortMenuOpen] = useState(false);
 
+  // Unique categories from products for the pill list
+  const categories = useMemo(
+    () => Array.from(new Set(products.map((p) => p.category))).sort(),
+    [products]
+  );
+
   useEffect(() => {
     setFilter(parseFilter(searchParams));
   }, [searchParams]);
@@ -138,6 +144,15 @@ export function VitrinClient({ products }: { products: ProductDetail[] }) {
   const handleSortChange = (key: SortKey) => {
     setSortBy(key);
     setIsSortMenuOpen(false);
+  };
+
+  const handleCategoryToggle = (category: string) => {
+    const current = filter.category ?? [];
+    // Single-select behavior: if clicked category is already selected, clear; otherwise select only that category
+    const nextCategories = current.includes(category) ? [] : [category];
+    const next = { ...filter, category: nextCategories };
+    setFilter(next);
+    setUrl(next);
   };
 
   const sortOptions: { key: SortKey; label: string }[] = [
@@ -160,6 +175,29 @@ export function VitrinClient({ products }: { products: ProductDetail[] }) {
           </div>
         </div>
       </section>
+
+      {categories.length > 0 && (
+        <div className={styles.categoriesWrapper}>
+          <div className="container">
+            <div className={styles.categoriesScroll}>
+              {categories.map((cat) => {
+                const active = filter.category?.includes(cat);
+                return (
+                  <button
+                    key={cat}
+                    type="button"
+                    className={`${styles.categoryPill} ${active ? styles.categoryActive : ''}`}
+                    onClick={() => handleCategoryToggle(cat)}
+                    aria-pressed={active}
+                  >
+                    {cat}
+                  </button>
+                );
+              })}
+            </div>
+          </div>
+        </div>
+      )}
 
       <div className="container">
         <section>

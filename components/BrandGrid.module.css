@@ -92,3 +92,54 @@
 .button:hover {
   opacity: 0.7;
 }
+
+/* New compact action row */
+.actionsRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+}
+
+.smallLink {
+  font-size: 0.85rem;
+  gap: 0.35rem;
+  padding: 0;
+}
+
+/* Details panel */
+.detailsPanel {
+  margin-top: 0.75rem;
+  padding-top: 0.75rem;
+  border-top: 1px dashed var(--border);
+}
+
+.detailRow {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem 0.75rem;
+  margin-bottom: 0.5rem;
+}
+
+.detailLink {
+  font-size: 0.85rem;
+  color: var(--accent);
+  text-decoration: none;
+}
+
+.detailLink:hover {
+  text-decoration: underline;
+}
+
+.story {
+  margin: 0;
+  color: var(--text-secondary);
+  font-size: 0.9rem;
+  line-height: 1.6;
+}
+
+.storyPlaceholder {
+  margin: 0;
+  color: var(--text-secondary);
+  font-size: 0.85rem;
+}

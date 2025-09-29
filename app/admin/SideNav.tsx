@@ -38,12 +38,55 @@ export function SideNav() {
         </div>
         <ul className={styles.navList}>
           {navLinks.map((link) => {
+            const isProducts = link.href === '/admin/products';
+            const isBrands = link.href === '/admin/brands';
+            // Parent is active only on exact route
             const isActive = pathname === link.href;
             return (
               <li key={link.href}>
                 <Link href={link.href} className={isActive ? styles.navLinkActive : styles.navLink}>
                   {link.label}
                 </Link>
+                {isProducts ? (
+                  <ul className={styles.navSubList}>
+                    <li>
+                      <Link
+                        href="/admin/products/add"
+                        className={pathname === '/admin/products/add' ? styles.navSubLinkActive : styles.navSubLink}
+                      >
+                        Ürün Ekle
+                      </Link>
+                    </li>
+                    <li>
+                      <Link
+                        href="/admin/products/list"
+                        className={pathname === '/admin/products/list' ? styles.navSubLinkActive : styles.navSubLink}
+                      >
+                        Ürünleri Gör
+                      </Link>
+                    </li>
+                  </ul>
+                ) : null}
+                {isBrands ? (
+                  <ul className={styles.navSubList}>
+                    <li>
+                      <Link
+                        href="/admin/brands/add"
+                        className={pathname === '/admin/brands/add' ? styles.navSubLinkActive : styles.navSubLink}
+                      >
+                        Marka Ekle
+                      </Link>
+                    </li>
+                    <li>
+                      <Link
+                        href="/admin/brands/list"
+                        className={pathname === '/admin/brands/list' ? styles.navSubLinkActive : styles.navSubLink}
+                      >
+                        Markaları Yönet
+                      </Link>
+                    </li>
+                  </ul>
+                ) : null}
               </li>
             );
           })}

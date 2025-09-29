@@ -48,9 +48,16 @@ export function AdminBrandForm() {
 
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    const formData = new FormData(event.currentTarget);
+    const formEl = event.currentTarget;
+    const formData = new FormData(formEl);
     const name = (formData.get('name') as string)?.trim();
     const description = (formData.get('description') as string)?.trim();
+    const website = (formData.get('website') as string)?.trim();
+    const instagram = (formData.get('instagram') as string)?.trim();
+    const tiktok = (formData.get('tiktok') as string)?.trim();
+    const x = (formData.get('x') as string)?.trim();
+    const linkedin = (formData.get('linkedin') as string)?.trim();
+    const story = (formData.get('story') as string)?.trim();
     const categoriesInput = (formData.get('categories') as string)?.trim();
     const categories = categoriesInput
       ? categoriesInput.split(',').map((category) => category.trim()).filter(Boolean)
@@ -61,6 +68,7 @@ export function AdminBrandForm() {
       return;
     }
 
+    // Logo yeni marka oluştururken zorunlu (backend de aynı şekilde doğrular)
     if (!logoData) {
       setMessage('Lütfen bir logo dosyası yükleyin.');
       return;
@@ -73,7 +81,18 @@ export function AdminBrandForm() {
       const response = await fetch('/api/admin/brands', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ name, description, logoData, categories })
+        body: JSON.stringify({
+          name,
+          description,
+          logoData,
+          categories,
+          website: website || undefined,
+          instagram: instagram || undefined,
+          tiktok: tiktok || undefined,
+          x: x || undefined,
+          linkedin: linkedin || undefined,
+          story: story || undefined
+        })
       });
 
       if (!response.ok) {
@@ -82,7 +101,7 @@ export function AdminBrandForm() {
         return;
       }
 
-      event.currentTarget.reset();
+      formEl.reset();
       setMessage('Marka başarıyla eklendi.');
       setLogoData(null);
       setLogoName(null);
@@ -140,9 +159,40 @@ export function AdminBrandForm() {
         Kategoriler (virgülle ayır)
         <input name="categories" type="text" placeholder="Sneaker, Lifestyle" disabled={submitting} />
       </label>
+      <div className={styles.adminFormInline}>
+        <span>
+          <label>Website
+            <input name="website" type="url" placeholder="https://example.com" disabled={submitting} />
+          </label>
+        </span>
+        <span>
+          <label>Instagram
+            <input name="instagram" type="url" placeholder="https://instagram.com/brand" disabled={submitting} />
+          </label>
+        </span>
+        <span>
+          <label>TikTok
+            <input name="tiktok" type="url" placeholder="https://tiktok.com/@brand" disabled={submitting} />
+          </label>
+        </span>
+        <span>
+          <label>X (Twitter)
+            <input name="x" type="url" placeholder="https://x.com/brand" disabled={submitting} />
+          </label>
+        </span>
+        <span>
+          <label>LinkedIn
+            <input name="linkedin" type="url" placeholder="https://linkedin.com/company/brand" disabled={submitting} />
+          </label>
+        </span>
+      </div>
       <label>
-        Açıklama
+        Kısa Bilgi (Markalar sayfasında görünecek)
         <textarea name="description" rows={3} placeholder="Marka hakkında kısa bilgi" disabled={submitting} />
+      </label>
+      <label>
+        Marka Hikayesi
+        <textarea name="story" rows={5} placeholder="Markanın hikayesini anlatın" disabled={submitting} />
       </label>
       <button type="submit" disabled={submitting}>
         {submitting ? 'Kaydediliyor…' : 'Markayı Kaydet'}

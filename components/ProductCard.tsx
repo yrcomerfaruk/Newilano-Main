@@ -52,7 +52,7 @@ export function ProductCard({ product, onRemove, showFavoriteButton = true, show
                 {t === 'HYPE'
                   ? 'Hype'
                   : t === 'ONE_CIKAN'
-                  ? 'Öne çıkan'
+                  ? 'Öne Çıkan'
                   : t === 'YENI'
                   ? 'Yeni'
                   : t === 'INDIRIMDE'

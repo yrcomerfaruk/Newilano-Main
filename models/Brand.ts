@@ -7,6 +7,14 @@ export type BrandDocument = {
   description?: string;
   logo?: string;
   categories: string[];
+  website?: string;
+  instagram?: string;
+  facebook?: string;
+  x?: string;
+  youtube?: string;
+  tiktok?: string;
+  linkedin?: string;
+  story?: string;
   createdAt: Date;
   updatedAt: Date;
 };
@@ -40,7 +48,15 @@ const BrandSchema = new Schema<BrandDocument>(
       type: [String],
       default: [],
       set: (values: string[]) => Array.from(new Set(values.map((value) => value.trim()))).filter(Boolean)
-    }
+    },
+    website: { type: String, trim: true },
+    instagram: { type: String, trim: true },
+    facebook: { type: String, trim: true },
+    x: { type: String, trim: true },
+    youtube: { type: String, trim: true },
+    tiktok: { type: String, trim: true },
+    linkedin: { type: String, trim: true },
+    story: { type: String, trim: true, maxlength: 2000 }
   },
   { timestamps: true }
 );

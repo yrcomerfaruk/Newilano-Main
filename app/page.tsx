@@ -4,6 +4,8 @@ import { ProductCarousel } from '@/components/ProductCarousel';
 import { GenderBar } from '@/components/GenderBar';
 import { ProductGridSection } from '@/components/ProductGridSection';
 import styles from './page.module.css';
+import Link from 'next/link';
+import { ExploreIcon } from '@/components/icons';
 import { getCampaigns, getHeroSlides, getProductsByTag } from '@/lib/data';
 import { slugify } from '@/lib/slugify';
 
@@ -28,6 +30,9 @@ export default async function Home() {
       <ProductCarousel title="En Yeni Ürünler" products={newest} viewAllHref="/vitrin?tag=YENI" />
       {discounted.length > 0 && <ProductCarousel title="İndirimdeki Ürünler" products={discounted} viewAllHref="/vitrin?tag=INDIRIMDE" />}
       {campaignData.length > 0 ? <CampaignSection campaigns={campaignData} /> : null}
+      <Link href="/kesfet" className={styles.fabKesfet} aria-label="Keşfet">
+        <ExploreIcon width={18} height={18} />
+      </Link>
     </main>
   );
 }

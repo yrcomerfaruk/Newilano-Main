@@ -27,6 +27,7 @@ const FavoriteEventSchema = new Schema<FavoriteEventDocument>(
 
 FavoriteEventSchema.index({ createdAt: -1 });
 FavoriteEventSchema.index({ product: 1, createdAt: -1 });
+FavoriteEventSchema.index({ user: 1, product: 1 }, { unique: true });
 
 const existingFavoriteEventModel =
   typeof mongoose.models === 'object'

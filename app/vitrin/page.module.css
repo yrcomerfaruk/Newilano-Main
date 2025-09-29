@@ -2,7 +2,7 @@
   padding-bottom: 4rem;
   display: flex;
   flex-direction: column;
-  gap: 3rem;
+  gap: 30px; /* ~30px spacing between hero, categories, and results */
 }
 
 .hero {
@@ -30,6 +30,57 @@
   font-size: 15px;
 }
 
+/* Categories Bar under hero section */
+.categoriesWrapper {
+  margin: 0; /* no extra margin, rely on .main gap */
+}
+.categoriesBar {
+  margin-top: 1.25rem;
+}
+
+.categoriesList {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.categoryPill {
+  appearance: none;
+  border: 1px solid #e5e7eb;
+  background: #ffffff; /* default white */
+  color: #111827;
+  border-radius: 12px; /* less rounded */
+  padding: 0.48rem 1rem; /* slightly smaller */
+  font-size: 0.9rem; /* slightly smaller */
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+  flex: 0 0 auto; /* keep width, don't shrink in scroll */
+}
+
+.categoryPill:not(.categoryActive):hover {
+  background: #f9fafb;
+}
+
+.categoryActive {
+  background: var(--surface); /* match hero background when active */
+  color: #111827;
+  border-color: var(--surface);
+}
+
+
+
+/* Horizontal scroll version (below hero) */
+.categoriesScroll {
+  display: flex;
+  gap: 0.5rem;
+  overflow-x: auto;
+  padding: 0; /* tighter internal spacing */
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none; /* Firefox: hide scrollbar */
+}
+.categoriesScroll::-webkit-scrollbar { display: none; }
+
 .layout {
   display: grid;
   grid-template-columns: minmax(260px, 320px) 1fr;
@@ -40,7 +91,7 @@
   display: flex;
   justify-content: space-between;
   align-items: center; /* Revert to center */
-  margin-bottom: 1.5rem;
+  margin-bottom: 30px; /* ~30px before product grid */
   flex-wrap: wrap;
   gap: 0.75rem;
 }
@@ -112,17 +163,13 @@
   .sortMenu button:hover {
     background-color: #f3f4f6;
   }
+ 
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 1.5rem;
+}
 
-  .sortMenu .sortActive {
-    font-weight: 600;
-    background-color: #f3f4f6;
-  }
-
-  .grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-    gap: 1.5rem;
-  }
 @media (max-width: 960px) {
   .layout {
     grid-template-columns: 1fr;
@@ -133,7 +180,6 @@
   .hero {
     padding: 2.5rem 0 1.8rem;
   }
-
   .heroContent h1 {
     font-size: 27px;
   }
@@ -142,11 +188,9 @@
     gap: 1.5rem;
   }
 
-  .resultsHeader {
-  }
-
   .grid {
     grid-template-columns: repeat(2, 1fr);
     gap: 1rem;
   }
 }
+

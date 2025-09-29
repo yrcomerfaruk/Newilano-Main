@@ -1,0 +1,456 @@
+.root {
+  position: fixed;
+  inset: 0;
+  background: #000; /* immersive background for media */
+  color: #fff;
+  display: grid;
+  grid-template-rows: 1fr;
+}
+
+/* Desktop two-column layout */
+.desktopGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr; /* equal thirds */
+  gap: 24px;
+  height: 100%;
+  align-items: stretch;
+}
+
+.leftPanel {
+  position: relative;
+  padding: 24px 20px; /* back link is on image now */
+  overflow: auto;
+  display: grid;
+  align-content: center; /* vertical centering */
+  justify-items: center; /* horizontal centering */
+  gap: 12px;
+}
+
+/* Left panel description centered horizontally */
+.productDescSide {
+  text-align: center;
+  max-width: 90%;
+}
+
+.centerPanel {
+  position: relative;
+  height: 100%;
+  display: grid;
+  place-items: center;
+  overflow: hidden;
+}
+
+.fixedChannel {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  margin: 0 auto;
+}
+
+/* Back button pinned on image (desktop) */
+.imageBack {
+  position: absolute;
+  top: 12px;
+  left: 12px;
+  z-index: 10;
+  font-size: 12px;
+  padding: 6px 10px;
+}
+
+/* Centered overlay description on image */
+.centerOverlay {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  pointer-events: none;
+}
+.overlayText {
+  max-width: 80%;
+  text-align: center;
+  color: #fff;
+  font-size: 14px;
+  line-height: 1.4;
+  text-shadow: 0 2px 8px rgba(0,0,0,0.7);
+}
+
+.actionsCol {
+  position: fixed; /* truly fixed to viewport */
+  top: 0;
+  right: 16px;
+  height: 100vh;
+  display: grid;
+  align-content: center; /* vertical center */
+  justify-items: center;  /* horizontal center of the group */
+}
+
+/* Desktop back button pinned in left panel */
+.backTop {
+  position: absolute;
+  top: 16px;
+  left: 20px;
+  z-index: 5;
+}
+
+.slide {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  touch-action: pan-y pinch-zoom;
+}
+
+.galleryTrack {
+  display: flex;
+  height: 100%;
+  transition: transform 300ms ease;
+}
+
+.galleryImageWrapper {
+  min-width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #000;
+}
+
+.galleryImage {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.topBar {
+  position: absolute;
+  top: 12px;
+  left: 12px;
+  right: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  z-index: 5;
+}
+.topBar .backButton { font-size: 12px; padding: 6px 10px; }
+
+.backButton {
+  background: rgba(255,255,255,0.08);
+  color: #fff;
+  border: 1px solid rgba(255,255,255,0.15);
+  border-radius: 10px;
+  padding: 8px 12px;
+}
+
+/* White bordered, centered back link variants */
+.imageBack.backButton,
+.topBar .backButton {
+  background: transparent;
+  border: 2px solid #ffffff; /* thicker border for prominence */
+  display: inline-flex;
+  align-items: center; /* center icon + text vertically */
+  gap: 6px; /* space between icon and text */
+}
+
+.actions {
+  position: absolute;
+  right: 12px;
+  bottom: 120px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  z-index: 5;
+}
+
+/* Group container for all action icons */
+.actionsGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 4px; /* tighter vertical spacing between items */
+  padding: 4px; /* more compact */
+  align-items: center; /* center children horizontally */
+  background: #ffffff; /* solid white */
+  border: 1px solid rgba(0,0,0,0.12);
+  border-radius: 12px;
+  box-shadow: 0 6px 18px rgba(0,0,0,0.08);
+}
+
+/* Single action (icon + count) vertical stack */
+.actionItem {
+  display: grid;
+  grid-template-rows: auto auto;
+  place-items: center;
+  row-gap: 1px; /* bring icon and count closer */
+}
+.countLabel {
+  font-size: 11px;
+  color: #111111;
+  line-height: 1;
+}
+
+.iconButton {
+  width: 36px;
+  height: 36px;
+  border-radius: 8px;
+  background: transparent;
+  border: none;
+  color: #000000; /* black icon */
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+.brandButton {
+  width: 36px;
+  height: 36px;
+  border-radius: 999px; /* circular brand */
+  background: transparent;
+  border: 1px solid rgba(255,255,255,0.2);
+  color: #d1d1d1;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.iconButton:hover:not(.iconActive) { color: #000000; }
+.brandButton:hover { background: rgba(255,255,255,0.06); }
+
+.brandLogo {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 999px;
+  border: 2px solid #000; /* black ring */
+}
+
+/* Active favorite state fills the heart via currentColor; add a subtle ring */
+.iconButton.iconActive {
+  /* Active favorite should be black per request */
+  color: #000000 !important;
+}
+
+/* Like count badge next to favorite */
+.likeCountBadge {
+  margin-left: 6px;
+  align-self: center;
+  font-size: 13px;
+  color: #e6e6e6;
+  background: rgba(255,255,255,0.08);
+  border: 1px solid rgba(255,255,255,0.12);
+  border-radius: 999px;
+  padding: 3px 10px;
+}
+
+.bottomInfo {
+  position: absolute;
+  left: 12px;
+  right: 12px;
+  bottom: 16px;
+  color: #fff;
+  z-index: 5;
+  display: grid;
+  gap: 6px;
+  background: rgba(0,0,0,0.6);
+  padding: 10px 12px;
+  border-radius: 10px;
+}
+
+.productName {
+  font-weight: 700;
+  font-size: 18px;
+}
+
+.productDesc {
+  font-size: 14px;
+  color: rgba(255,255,255,0.9);
+}
+
+.moreLess {
+  background: transparent;
+  color: #fff;
+  border: none;
+  text-decoration: underline;
+  padding: 0;
+  font-size: 14px;
+}
+
+/* Desktop layout with side panel and mobile frame */
+.desktopLayout {
+  display: grid;
+  grid-template-columns: 380px 1fr;
+  height: 100%;
+}
+
+.sidePanel {
+  padding: 16px;
+  overflow: hidden;
+  display: grid;
+  grid-template-rows: auto 1fr;
+  gap: 16px;
+}
+
+.metaBlock { display: grid; gap: 10px; }
+
+.likeRow {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.likeCount { color: #d1d1d1; font-size: 14px; }
+
+.commentsBlock { display: grid; grid-template-rows: auto auto 1fr; gap: 10px; min-height: 0; }
+.commentsTitle { font-weight: 600; }
+.commentForm { display: flex; gap: 8px; }
+.commentInput {
+  flex: 1;
+  background: #fff;
+  border: 1px solid #e5e5e5;
+  color: #111;
+  border-radius: 8px;
+  padding: 10px 12px;
+}
+.commentSend { background: #111; color: #fff; border: 1px solid #111; border-radius: 8px; padding: 10px 14px; }
+.commentHint { color: #666; font-size: 13px; }
+.commentsList { overflow: auto; min-height: 0; display: grid; gap: 10px; align-content: start; }
+.commentItem { background: #fff; border: 1px solid #efefef; border-radius: 10px; padding: 10px; }
+.commentAuthor { font-weight: 600; font-size: 13px; color: #333; }
+.commentText { color: #111; font-size: 14px; }
+.commentEmpty { color: #777; font-size: 13px; }
+
+.frameArea { position: relative; height: 100%; display: grid; place-items: center; }
+.mobileFrame {
+  width: min(420px, 92vw);
+  height: min(780px, 90vh);
+  border: 12px solid #111;
+  border-radius: 24px;
+  background: #000;
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 10px 50px rgba(0,0,0,0.6);
+}
+
+/* Mobile comments bottom sheet - white themed */
+.sheetBackdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.5);
+  z-index: 50;
+}
+
+.sheet {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 60vh;
+  background: #ffffff;
+  border-top-left-radius: 16px;
+  border-top-right-radius: 16px;
+  box-shadow: 0 -10px 30px rgba(0,0,0,0.2);
+  transform: translateY(100%);
+  transition: transform 250ms ease;
+  z-index: 60;
+  display: grid;
+  grid-template-rows: auto 1fr auto;
+}
+
+.sheetOpen { transform: translateY(0); }
+
+.sheetHandle {
+  width: 48px;
+  height: 5px;
+  background: #e5e5e5;
+  border-radius: 999px;
+  margin: 8px auto 0;
+}
+
+.sheetHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 14px;
+  color: #111;
+  border-bottom: 1px solid #efefef;
+}
+
+.sheetClose { background: #f5f5f5; color: #333; border: 1px solid #e5e5e5; border-radius: 8px; padding: 6px 10px; }
+
+.sheetBody { overflow: auto; padding: 10px 12px; background: #fff; }
+
+.sheetFooter {
+  display: flex;
+  gap: 8px;
+  padding: 10px;
+  border-top: 1px solid #efefef;
+  background: #fff;
+}
+
+/* Desktop comments drawer */
+.sheetDesktop {
+  position: fixed;
+  top: 0;
+  right: 0;
+  width: min(420px, 92vw);
+  height: 100vh;
+  background: #ffffff;
+  box-shadow: -10px 0 30px rgba(0,0,0,0.2);
+  transform: translateX(100%);
+  transition: transform 250ms ease;
+  z-index: 60;
+  display: grid;
+  grid-template-rows: auto 1fr auto;
+}
+.sheetDesktop.sheetOpen { transform: translateX(0); }
+
+@media (min-width: 768px) {
+  .iconButton, .brandButton { width: 56px; height: 56px; }
+  .backButton { padding: 10px 14px; }
+  .bottomInfo { display: none; }
+  /* Hide absolute actions on desktop; use right column */
+  .actions { display: none; }
+  /* Smaller typography on desktop left panel */
+  .leftPanel .productName { font-size: 16px; }
+  .leftPanel .productDesc, .leftPanel .productDescSide { font-size: 13px; }
+}
+.dot, .dotActive {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.5);
+}
+.dotActive { background: #fff; }
+
+/* Desktop arrows for gallery */
+.navArrow {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background: rgba(0,0,0,0.4);
+  color: #fff;
+  border: 1px solid rgba(255,255,255,0.2);
+  border-radius: 999px;
+  width: 36px;
+  height: 36px;
+  display: grid;
+  place-items: center;
+  font-size: 20px;
+  cursor: pointer;
+  z-index: 10;
+}
+.navLeft { left: 8px; }
+.navRight { right: 8px; }
+
+/* Mobile-first overrides to preserve original mobile layout */
+@media (max-width: 767px) {
+  .desktopLayout { display: block; height: 100%; }
+  .sidePanel { display: none; }
+  .frameArea { height: 100%; }
+  .mobileFrame {
+    width: 100vw;
+    height: 100vh;
+    border: none;
+    border-radius: 0;
+    box-shadow: none;
+  }
+  /* Keep original mobile bottom overlay visible */
+  .bottomInfo { display: grid; }
+}

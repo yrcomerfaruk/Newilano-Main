@@ -5,7 +5,8 @@ import Link from 'next/link';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import { useSession } from 'next-auth/react';
 import { Logo } from './Logo';
-import { CloseIcon, HeartIcon, SearchIcon } from './icons';
+import { CloseIcon } from './icons';
+import { FiHeart, FiSearch } from 'react-icons/fi';
 import { AuthButtons } from './AuthButtons';
 import styles from './SiteHeader.module.css';
 import { AnnouncementBar } from './AnnouncementBar';
@@ -207,10 +208,10 @@ export function SiteHeader() {
           </nav>
           <div className={styles.actions}>
             <button className={styles.iconButton} aria-label="Arama" type="button" onClick={handleSearchOpen}>
-              <SearchIcon width={20} height={20} />
+              <FiSearch size={20} />
             </button>
             <button className={styles.iconButton} aria-label="Favoriler" type="button" onClick={handleFavoritesClick}>
-              <HeartIcon width={22} height={22} />
+              <FiHeart size={18} />
             </button>
             <AuthButtons />
           </div>
@@ -221,7 +222,7 @@ export function SiteHeader() {
           <div className={styles.searchPanel} role="document">
             <div className={styles.searchHeader}>
               <form className={styles.searchForm} onSubmit={handleSearchSubmit}>
-                <SearchIcon width={18} height={18} />
+                <FiSearch size={18} />
                 <input
                   ref={searchInputRef}
                   type="search"

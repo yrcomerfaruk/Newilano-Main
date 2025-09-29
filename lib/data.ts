@@ -7,6 +7,7 @@ import { AnnouncementModel } from '@/models/Announcement';
 import { HeroSlideModel } from '@/models/HeroSlide';
 import { User } from '@/models/User';
 import { FavoriteEvent } from '@/models/FavoriteEvent';
+import { VisitEvent } from '@/models/VisitEvent';
 
 export type Product = {
   id: string;
@@ -36,6 +37,60 @@ export async function getActiveAnnouncements(): Promise<Announcement[]> {
   await connectToDatabase();
   const docs = await AnnouncementModel.find({ active: true }).sort({ order: 1, createdAt: 1 }).lean();
   return docs.map((d: any) => ({ id: d._id.toString(), message: d.message, active: !!d.active, order: Number(d.order) || 0 }));
+}
+
+export type ProductMetrics = {
+  totalProducts: number;
+  totalFavorites: number;
+  totalViews: number;
+  hypeCount: number;
+  oneCikanCount: number;
+};
+
+export async function getProductMetrics(): Promise<ProductMetrics> {
+  await connectToDatabase();
+  const [totalProducts, totalFavorites, totalViews, hypeCount, oneCikanCount] = await Promise.all([
+    Product.countDocuments({}),
+    FavoriteEvent.countDocuments({}),
+    VisitEvent.countDocuments({}),
+    Product.countDocuments({ tags: 'HYPE' }),
+    Product.countDocuments({ tags: 'ONE_CIKAN' })
+  ]);
+
+  return { totalProducts, totalFavorites, totalViews, hypeCount, oneCikanCount };
+}
+
+export async function getProductsByBrandSlug(slug: string, limit = 10): Promise<ProductDetail[]> {
+  if (!slug) return [];
+  await connectToDatabase();
+  const brand = await Brand.findOne({ slug }).lean();
+  if (!brand) return [];
+  // Products store brand name in brandName; use that to filter
+  const docs = await Product.find({ brandName: brand.name }).sort({ createdAt: -1 }).limit(limit).lean();
+  return docs.map(mapProduct);
+}
+
+export async function getBrandBySlug(slug: string): Promise<BrandSummary | null> {
+  if (!slug) return null;
+  await connectToDatabase();
+  const doc = await Brand.findOne({ slug }).lean();
+  if (!doc) return null;
+  return {
+    id: doc._id.toString(),
+    name: doc.name,
+    slug: doc.slug,
+    logo: doc.logo ?? undefined,
+    description: doc.description ?? undefined,
+    categories: doc.categories ?? [],
+    website: doc.website ?? undefined,
+    instagram: doc.instagram ?? undefined,
+    facebook: doc.facebook ?? undefined,
+    x: doc.x ?? undefined,
+    youtube: doc.youtube ?? undefined,
+    tiktok: doc.tiktok ?? undefined,
+    linkedin: doc.linkedin ?? undefined,
+    story: doc.story ?? undefined
+  };
 }
 
 export type ProductDetail = Product & {
@@ -76,6 +131,14 @@ export type BrandSummary = {
   logo?: string;
   description?: string;
   categories: string[];
+  website?: string;
+  instagram?: string;
+  facebook?: string;
+  x?: string;
+  youtube?: string;
+  tiktok?: string;
+  linkedin?: string;
+  story?: string;
 };
 
 function formatPrice(value: number, currency: string) {
@@ -161,7 +224,15 @@ export async function getBrands(): Promise<BrandSummary[]> {
     slug: doc.slug,
     logo: doc.logo ?? undefined,
     description: doc.description ?? undefined,
-    categories: doc.categories ?? []
+    categories: doc.categories ?? [],
+    website: doc.website ?? undefined,
+    instagram: doc.instagram ?? undefined,
+    facebook: doc.facebook ?? undefined,
+    x: doc.x ?? undefined,
+    youtube: doc.youtube ?? undefined,
+    tiktok: doc.tiktok ?? undefined,
+    linkedin: doc.linkedin ?? undefined,
+    story: doc.story ?? undefined
   }));
 }
 
@@ -363,7 +434,10 @@ export async function getTrendingProducts(limit = 8): Promise<ProductDetail[]> {
   return mapped.slice(0, limit);
 }
 
-export async function searchProducts(query: string, limit = 10): Promise<{ id: string; slug: string; name: string; brand: string; price: string }[]> {
+export async function searchProducts(
+  query: string,
+  limit = 10
+): Promise<{ id: string; slug: string; name: string; brand: string; price: string; image?: string; category?: string }[]> {
   await connectToDatabase();
   const trimmed = query.trim();
 
@@ -386,7 +460,9 @@ export async function searchProducts(query: string, limit = 10): Promise<{ id: s
       slug: doc.slug,
       name: doc.name,
       brand: doc.brandName,
-      price: formatPrice(priceValue, currency)
+      price: formatPrice(priceValue, currency),
+      image: doc.image ?? undefined,
+      category: doc.category ?? undefined
     };
   });
 }

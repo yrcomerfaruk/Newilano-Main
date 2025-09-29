@@ -13,9 +13,10 @@ type FavoriteButtonProps = {
   showLabel?: boolean;
   iconWidth?: number;
   iconHeight?: number;
+  onToggle?: (isFavorite: boolean) => void;
 };
 
-export function FavoriteButton({ productSlug, className, activeClassName, showLabel = true, iconWidth = 18, iconHeight = 18 }: FavoriteButtonProps) {
+export function FavoriteButton({ productSlug, className, activeClassName, showLabel = true, iconWidth = 18, iconHeight = 18, onToggle }: FavoriteButtonProps) {
   const { status } = useSession();
   const router = useRouter();
   const pathname = usePathname();
@@ -111,7 +112,9 @@ export function FavoriteButton({ productSlug, className, activeClassName, showLa
         }
 
         const data = await response.json();
-        setIsFavorite(Boolean(data.favorite) || Boolean(data.favorites?.includes(productSlug)));
+        const nextFav = Boolean(data.favorite) || Boolean(data.favorites?.includes(productSlug));
+        setIsFavorite(nextFav);
+        onToggle?.(nextFav);
       } else {
         const response = await fetch('/api/favorites', {
           method: 'POST',
@@ -124,7 +127,9 @@ export function FavoriteButton({ productSlug, className, activeClassName, showLa
         }
 
         const data = await response.json();
-        setIsFavorite(Boolean(data.favorite) || Boolean(data.favorites?.includes(productSlug)));
+        const nextFav = Boolean(data.favorite) || Boolean(data.favorites?.includes(productSlug));
+        setIsFavorite(nextFav);
+        onToggle?.(nextFav);
       }
     } catch (err) {
       console.error(err);

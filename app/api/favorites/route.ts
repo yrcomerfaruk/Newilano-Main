@@ -54,8 +54,16 @@ export async function POST(request: NextRequest) {
     const updateResult = await User.updateOne({ email }, { $addToSet: { favorites: slug } });
     const userDoc = await User.findOne({ email }).select({ favorites: 1, _id: 1 }).lean();
 
-    if (updateResult.modifiedCount > 0 && userDoc?._id) {
-      await FavoriteEvent.create({ user: userDoc._id, product: product._id });
+    // Record lifetime unique favorite event (do not remove on unfavorite)
+    if (userDoc?._id) {
+      try {
+        await FavoriteEvent.create({ user: userDoc._id, product: product._id });
+      } catch (err: any) {
+        // Ignore duplicate key error (already recorded lifetime favorite)
+        if (!(err && err.code === 11000)) {
+          throw err;
+        }
+      }
     }
 
     return NextResponse.json({ favorites: userDoc?.favorites ?? [], favorite: true });

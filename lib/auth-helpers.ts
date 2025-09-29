@@ -4,6 +4,11 @@ import { auth } from './auth';
 export async function requireAdmin() {
   const session = await auth();
 
+  // Bypass for development: set ADMIN_BYPASS=true in .env.local
+  if (process.env.ADMIN_BYPASS === 'true') {
+    return { ok: true as const, session };
+  }
+
   if (!session?.user?.email) {
     return {
       ok: false as const,

@@ -16,6 +16,13 @@ type BrandListItem = {
   logo?: string;
   description?: string;
   categories: string[];
+  website?: string;
+  instagram?: string;
+  tiktok?: string;
+  x?: string;
+  linkedin?: string;
+  youtube?: string;
+  story?: string;
   productCount: number;
 };
 
@@ -24,6 +31,9 @@ export function AdminBrandList({ brands }: { brands: BrandListItem[] }) {
   const [feedback, setFeedback] = useState<string | null>(null);
   const [pendingId, setPendingId] = useState<string | null>(null);
   const [isPending, startTransition] = useTransition();
+
+  const [editId, setEditId] = useState<string | null>(null);
+  const [editMsg, setEditMsg] = useState<string | null>(null);
 
   const handleDelete = (brand: BrandListItem) => {
     if (brand.productCount > 0) {
@@ -55,6 +65,45 @@ export function AdminBrandList({ brands }: { brands: BrandListItem[] }) {
       } catch (error) {
         console.error('Brand delete error', error);
         setFeedback('Marka silinemedi.');
+      } finally {
+        setPendingId(null);
+      }
+    });
+  };
+
+  const handleEditSubmit = (brand: BrandListItem, form: HTMLFormElement) => {
+    setPendingId(brand.id);
+    setEditMsg(null);
+    startTransition(async () => {
+      try {
+        const formData = new FormData(form);
+        const payload: Record<string, any> = {};
+        ['description','story','website','instagram','tiktok','x','linkedin','youtube','categories'].forEach((k) => {
+          const v = formData.get(k) as string | null;
+          if (v != null) payload[k] = v.trim();
+        });
+        if (payload.categories) {
+          payload.categories = payload.categories
+            .split(',')
+            .map((c: string) => c.trim())
+            .filter(Boolean);
+        }
+        const res = await fetch(`/api/admin/brands/${brand.id}`, {
+          method: 'PATCH',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload)
+        });
+        if (!res.ok) {
+          const p = await res.json().catch(() => ({}));
+          setEditMsg(p.message ?? 'Güncelleme başarısız.');
+          return;
+        }
+        setEditMsg('Güncellendi.');
+        setEditId(null);
+        router.refresh();
+      } catch (e) {
+        console.error(e);
+        setEditMsg('Güncelleme başarısız.');
       } finally {
         setPendingId(null);
       }
@@ -98,12 +147,84 @@ export function AdminBrandList({ brands }: { brands: BrandListItem[] }) {
           <div className={styles.brandListActions}>
             <button
               type="button"
+              className={styles.editButton}
+              onClick={() => setEditId((v) => (v === brand.id ? null : brand.id))}
+              disabled={isPending && pendingId === brand.id}
+            >
+              {editId === brand.id ? 'Kapat' : 'Düzenle'}
+            </button>
+            <button
+              type="button"
               onClick={() => handleDelete(brand)}
               disabled={isPending && pendingId === brand.id}
             >
               {isPending && pendingId === brand.id ? 'Siliniyor…' : 'Sil'}
             </button>
           </div>
+          {editId === brand.id ? (
+            <form
+              className={styles.adminForm}
+              style={{ gridColumn: '1 / -1', marginTop: '0.75rem' }}
+              onSubmit={(e) => {
+                e.preventDefault();
+                handleEditSubmit(brand, e.currentTarget);
+              }}
+            >
+              <div className={styles.adminFormInline}>
+                <span>
+                  <label>Açıklama
+                    <input name="description" type="text" defaultValue={brand.description ?? ''} />
+                  </label>
+                </span>
+                <span>
+                  <label>Kategoriler (virgülle)
+                    <input name="categories" type="text" defaultValue={brand.categories.join(', ')} />
+                  </label>
+                </span>
+              </div>
+              <div className={styles.adminFormInline}>
+                <span>
+                  <label>Website
+                    <input name="website" type="url" defaultValue={brand.website ?? ''} />
+                  </label>
+                </span>
+                <span>
+                  <label>Instagram
+                    <input name="instagram" type="url" defaultValue={brand.instagram ?? ''} />
+                  </label>
+                </span>
+                <span>
+                  <label>TikTok
+                    <input name="tiktok" type="url" defaultValue={brand.tiktok ?? ''} />
+                  </label>
+                </span>
+                <span>
+                  <label>X
+                    <input name="x" type="url" defaultValue={brand.x ?? ''} />
+                  </label>
+                </span>
+                <span>
+                  <label>LinkedIn
+                    <input name="linkedin" type="url" defaultValue={brand.linkedin ?? ''} />
+                  </label>
+                </span>
+                <span>
+                  <label>YouTube
+                    <input name="youtube" type="url" defaultValue={brand.youtube ?? ''} />
+                  </label>
+                </span>
+              </div>
+              <label>
+                Marka Hikayesi
+                <textarea name="story" rows={4} defaultValue={brand.story ?? ''} />
+              </label>
+              <div style={{ display: 'flex', gap: '0.5rem' }}>
+                <button type="submit" disabled={isPending && pendingId === brand.id}>Kaydet</button>
+                <button type="button" onClick={() => setEditId(null)}>İptal</button>
+              </div>
+              {editMsg ? <p className={styles.adminFormMessage}>{editMsg}</p> : null}
+            </form>
+          ) : null}
         </article>
       ))}
     </div>

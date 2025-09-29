@@ -59,9 +59,7 @@ export function FilterBar({ products, onFilterChange, initialFilter, onClose }: 
       for (const p of products) {
         if (p.gender) set.add(p.gender.toUpperCase());
       }
-      // UNISEX'i her zaman ayrı bir seçenek olarak sun
-      set.add('UNISEX');
-      // Sadece veride gerçekten bulunan cinsiyetler + UNISEX'i göster
+      // Yalnızca veride bulunan cinsiyetleri göster (UNISEX varsa eklenir)
       return Array.from(set).sort();
     },
     [products]

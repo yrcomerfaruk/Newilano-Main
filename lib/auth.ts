@@ -48,7 +48,7 @@ export const authOptions: NextAuthOptions = {
           id: user._id.toString(),
           name: user.name,
           email: user.email,
-          role: (user.role as 'user' | 'admin') ?? 'user'
+          role: (typeof user.role === 'string' ? user.role.toLowerCase() : 'user') as 'user' | 'admin'
         };
       }
     })
@@ -59,7 +59,9 @@ export const authOptions: NextAuthOptions = {
         token.id = user.id;
         token.name = user.name;
         token.email = user.email;
-        token.role = (user as { role?: 'user' | 'admin' }).role ?? 'user';
+        token.role = (typeof (user as any).role === 'string'
+          ? (((user as any).role as string).toLowerCase() as 'user' | 'admin')
+          : ('user' as 'user'));
       }
       return token;
     },
@@ -68,7 +70,9 @@ export const authOptions: NextAuthOptions = {
         session.user.id = token.id as string;
         session.user.name = token.name;
         session.user.email = token.email;
-        session.user.role = (token.role as 'user' | 'admin') ?? 'user';
+        session.user.role = (typeof token.role === 'string' && (token.role as string).toLowerCase() === 'admin')
+          ? 'admin'
+          : 'user';
       }
       return session;
     }

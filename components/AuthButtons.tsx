@@ -3,7 +3,7 @@
 import Link from 'next/link';
 import { signOut, useSession } from 'next-auth/react';
 import { useEffect, useRef, useState } from 'react';
-import { UserIcon } from './icons';
+import { FiUser } from 'react-icons/fi';
 import styles from './AuthButtons.module.css';
 
 export function AuthButtons() {
@@ -52,7 +52,7 @@ export function AuthButtons() {
         aria-expanded={menuOpen}
         onClick={() => setMenuOpen((open) => !open)}
       >
-        <UserIcon width={24} height={24} />
+        <FiUser size={22} />
       </button>
 
       {menuOpen ? (

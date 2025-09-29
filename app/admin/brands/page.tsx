@@ -1,6 +1,5 @@
-import { AdminBrandForm } from '@/app/admin/BrandForm';
-import { AdminBrandList } from '@/app/admin/BrandList';
-import { getAllProducts, getBrands } from '@/lib/data';
+import Link from 'next/link';
+import styles from '@/app/admin/page.module.css';
 
 export const dynamic = 'force-dynamic';
 
@@ -9,22 +8,18 @@ export const metadata = {
 };
 
 export default async function AdminBrandsPage() {
-  const [allProducts, brands] = await Promise.all([getAllProducts(), getBrands()]);
-
-  const brandStats = brands.map((brand) => ({
-    ...brand,
-    productCount: allProducts.filter((product) => product.brandId === brand.id).length
-  }));
-
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', gap: '2rem' }}>
-      <section>
-        <h2>Marka Ekle</h2>
-        <AdminBrandForm />
-      </section>
-      <section>
-        <h2>Markaları Yönet</h2>
-        <AdminBrandList brands={brandStats} />
+    <div className={styles.managementStack}>
+      <section className={styles.panel}>
+        <h3>Marka Yönetimi</h3>
+        <ul className={styles.actionList}>
+          <li>
+            <Link href="/admin/brands/add" className={styles.action}>Marka Ekle</Link>
+          </li>
+          <li>
+            <Link href="/admin/brands/list" className={styles.action}>Markaları Yönet</Link>
+          </li>
+        </ul>
       </section>
     </div>
   );
