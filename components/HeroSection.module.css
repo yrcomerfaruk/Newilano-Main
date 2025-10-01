@@ -9,7 +9,7 @@
   width: 100%;
   aspect-ratio: 21 / 9; /* Make it wider */
   overflow: hidden;
-  border-radius: 1.25rem;
+  border-radius: 0 0 0.75rem 0.75rem; /* only bottom corners rounded, smaller radius */
   background-color: #f3f4f6;
 }
 
@@ -23,7 +23,7 @@
 }
 
 .content {
-  padding: 1.5rem 0; /* Reduced padding */
+  padding: 1rem 0; /* slightly tighter to reduce overall height */
 }
 
 .textBox {
@@ -32,6 +32,7 @@
   align-items: center;
   gap: 1rem;
   color: #111827;
+  min-height: 60px; /* target ~60px text area */
 }
 
 .textBox h1 {
@@ -95,15 +96,15 @@
 
 @media (max-width: 768px) {
   .textBox h1 {
-    font-size: 1.25rem; /* 20px */
+    font-size: 1.0625rem; /* 17px on mobile */
   }
 
   .textBox p {
-    font-size: 0.8125rem; /* 13px */
+    font-size: 0.625rem; /* 10px on mobile */
   }
 
   .slideContainer {
-    height: 60vh; /* Set height for mobile */
+    height: 70vh; /* Increased height for mobile */
   }
 
   .cta {

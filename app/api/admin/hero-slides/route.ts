@@ -19,7 +19,7 @@ export async function POST(request: NextRequest) {
   }
 
   const body = await request.json();
-  const { title, subtitle, ctaLabel, ctaHref, imageData, order, mobileImageData, tabletImageData, desktopImageData } = body ?? {};
+  const { title, subtitle, ctaLabel, ctaHref, imageData, order, mobileImageData } = body ?? {};
 
   if (!title || typeof title !== 'string') {
     return NextResponse.json({ message: 'Başlık gereklidir.' }, { status: 400 });
@@ -45,24 +45,12 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ message: 'Görsel boyutu 4MB sınırını aşıyor.' }, { status: 413 });
   }
 
-  const variants: { mobileImage?: string; tabletImage?: string; desktopImage?: string } = {};
+  const variants: { mobileImage?: string } = {};
   if (typeof mobileImageData === 'string' && mobileImageData.startsWith('data:image/')) {
     if (mobileImageData.length > MAX_IMAGE_DATA_SIZE * 1.4) {
       return NextResponse.json({ message: 'Mobil görsel boyutu 4MB sınırını aşıyor.' }, { status: 413 });
     }
     variants.mobileImage = mobileImageData;
-  }
-  if (typeof tabletImageData === 'string' && tabletImageData.startsWith('data:image/')) {
-    if (tabletImageData.length > MAX_IMAGE_DATA_SIZE * 1.4) {
-      return NextResponse.json({ message: 'Tablet görsel boyutu 4MB sınırını aşıyor.' }, { status: 413 });
-    }
-    variants.tabletImage = tabletImageData;
-  }
-  if (typeof desktopImageData === 'string' && desktopImageData.startsWith('data:image/')) {
-    if (desktopImageData.length > MAX_IMAGE_DATA_SIZE * 1.4) {
-      return NextResponse.json({ message: 'Desktop görsel boyutu 4MB sınırını aşıyor.' }, { status: 413 });
-    }
-    variants.desktopImage = desktopImageData;
   }
 
   await connectToDatabase();

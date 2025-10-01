@@ -18,6 +18,7 @@ function parseFilter(searchParams: URLSearchParams): Filter {
   const size = searchParams.get('size')?.split(',') ?? [];
   const shoeSize = searchParams.get('shoeSize')?.split(',') ?? [];
   const color = searchParams.get('color')?.split(',') ?? [];
+  const tag = searchParams.get('tag')?.split(',') ?? [];
   return {
     search: search?.trim() || undefined,
     category: category.filter(Boolean),
@@ -25,7 +26,8 @@ function parseFilter(searchParams: URLSearchParams): Filter {
     gender: gender.filter(Boolean),
     size: size.filter(Boolean),
     shoeSize: shoeSize.filter(Boolean),
-    color: color.filter(Boolean)
+    color: color.filter(Boolean),
+    tag: tag.filter(Boolean)
   };
 }
 
@@ -38,6 +40,7 @@ function setUrl(filter: Filter) {
   if (filter.size?.length) params.set('size', filter.size.join(','));
   if (filter.shoeSize?.length) params.set('shoeSize', filter.shoeSize.join(','));
   if (filter.color?.length) params.set('color', filter.color.join(','));
+  if (filter.tag?.length) params.set('tag', filter.tag.join(','));
   const query = params.toString();
   const nextUrl = query ? `/vitrin?${query}` : '/vitrin';
   window.history.replaceState(null, '', nextUrl);
@@ -47,6 +50,10 @@ type SortKey = 'default' | 'price-asc' | 'price-desc' | 'newest';
 
 function applyFilterAndSort(products: ProductDetail[], filter: Filter, sortBy: SortKey) {
   const filtered = products.filter((product) => {
+    if (filter.tag?.length) {
+      const tags = product.tags ?? [];
+      if (!filter.tag.some(t => tags.includes(t as any))) return false;
+    }
     if (filter.gender?.length) {
       const selected = filter.gender.map(g => g.toUpperCase());
       const raw = (product.gender ?? '').toUpperCase();

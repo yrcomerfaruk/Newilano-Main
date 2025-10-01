@@ -15,11 +15,7 @@ export function AdminHeroForm() {
   const [imageName, setImageName] = useState<string | null>(null);
   const [imageError, setImageError] = useState<string | null>(null);
   const mobileInputRef = useRef<HTMLInputElement | null>(null);
-  const tabletInputRef = useRef<HTMLInputElement | null>(null);
-  const desktopInputRef = useRef<HTMLInputElement | null>(null);
   const [mobileImageData, setMobileImageData] = useState<string | null>(null);
-  const [tabletImageData, setTabletImageData] = useState<string | null>(null);
-  const [desktopImageData, setDesktopImageData] = useState<string | null>(null);
   const [variantError, setVariantError] = useState<string | null>(null);
 
   const handleFileSelect = (event: ChangeEvent<HTMLInputElement>) => {
@@ -108,7 +104,7 @@ export function AdminHeroForm() {
       const response = await fetch('/api/admin/hero-slides', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ title, subtitle, ctaLabel, ctaHref, imageData, order, mobileImageData, tabletImageData, desktopImageData })
+        body: JSON.stringify({ title, subtitle, ctaLabel, ctaHref, imageData, order, mobileImageData })
       });
 
       if (!response.ok) {
@@ -122,14 +118,10 @@ export function AdminHeroForm() {
       setImageName(null);
       setImageError(null);
       setMobileImageData(null);
-      setTabletImageData(null);
-      setDesktopImageData(null);
       if (fileInputRef.current) {
         fileInputRef.current.value = '';
       }
       if (mobileInputRef.current) mobileInputRef.current.value = '';
-      if (tabletInputRef.current) tabletInputRef.current.value = '';
-      if (desktopInputRef.current) desktopInputRef.current.value = '';
       setMessage('Hero görseli eklendi.');
       router.refresh();
     } catch (error) {
@@ -190,35 +182,32 @@ export function AdminHeroForm() {
       </label>
       {imageError ? <p className={styles.adminFormMessage}>{imageError}</p> : null}
       <div className={styles.adminFormGroup}>
-        <span className={styles.adminFormLabel}>Cihaz Bazlı Görseller (opsiyonel)</span>
+        <span className={styles.adminFormLabel}>Mobil Görsel (≤ 500px) — opsiyonel</span>
         <div className={styles.adminFormInline}>
           <span>
-            Mobil (≤ 768px)
+            Mobil (≤ 500px)
             <div className={styles.uploadField}>
               <button type="button" className={styles.uploadButtonSecondary} onClick={() => mobileInputRef.current?.click()} disabled={submitting}>Mobil Görsel</button>
               <input ref={mobileInputRef} className={styles.hiddenInput} type="file" accept="image/*" onChange={handleVariantSelect(setMobileImageData)} disabled={submitting} />
             </div>
           </span>
-          <span>
-            Tablet (769–1024px)
-            <div className={styles.uploadField}>
-              <button type="button" className={styles.uploadButtonSecondary} onClick={() => tabletInputRef.current?.click()} disabled={submitting}>Tablet Görsel</button>
-              <input ref={tabletInputRef} className={styles.hiddenInput} type="file" accept="image/*" onChange={handleVariantSelect(setTabletImageData)} disabled={submitting} />
-            </div>
-          </span>
-          <span>
-            Desktop (≥ 1025px)
-            <div className={styles.uploadField}>
-              <button type="button" className={styles.uploadButtonSecondary} onClick={() => desktopInputRef.current?.click()} disabled={submitting}>Desktop Görsel</button>
-              <input ref={desktopInputRef} className={styles.hiddenInput} type="file" accept="image/*" onChange={handleVariantSelect(setDesktopImageData)} disabled={submitting} />
-            </div>
-          </span>
         </div>
         {variantError ? <p className={styles.adminFormMessage}>{variantError}</p> : null}
       </div>
-      {imageData ? (
-        <div className={styles.previewBox}>
-          <img src={imageData} alt="Hero görseli" />
+      {(imageData || mobileImageData) ? (
+        <div className={styles.adminFormInline}>
+          {imageData ? (
+            <div className={styles.previewBox}>
+              <span style={{display:'block', fontSize:'12px', color:'#666', marginBottom:'6px'}}>Ana Görsel</span>
+              <img src={imageData} alt="Hero ana görseli" />
+            </div>
+          ) : null}
+          {mobileImageData ? (
+            <div className={styles.previewBox}>
+              <span style={{display:'block', fontSize:'12px', color:'#666', marginBottom:'6px'}}>Mobil Görsel (≤ 500px)</span>
+              <img src={mobileImageData} alt="Hero mobil görseli" />
+            </div>
+          ) : null}
         </div>
       ) : null}
       <button type="submit" disabled={submitting}>

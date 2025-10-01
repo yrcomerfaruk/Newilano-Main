@@ -13,10 +13,10 @@ export const dynamic = 'force-dynamic';
 
 export default async function Home() {
   const [hype, featured, newest, discounted, campaignData, heroSlides] = await Promise.all([
-    getProductsByTag('HYPE', 8),
-    getProductsByTag('ONE_CIKAN', 8),
-    getProductsByTag('YENI', 8),
-    getProductsByTag('INDIRIMDE', 8),
+    getProductsByTag('HYPE', 20),
+    getProductsByTag('ONE_CIKAN', 20),
+    getProductsByTag('YENI', 20),
+    getProductsByTag('INDIRIMDE', 20),
     getCampaigns(3),
     getHeroSlides()
   ]);

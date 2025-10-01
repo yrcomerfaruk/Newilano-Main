@@ -14,6 +14,7 @@ export type Filter = {
   shoeSize?: string[];
   color?: string[];
   search?: string;
+  tag?: string[]; // product groups: HYPE, ONE_CIKAN, YENI, INDIRIMDE
 };
 
 type Props = {
@@ -76,13 +77,13 @@ export function FilterBar({ products, onFilterChange, initialFilter, onClose }: 
         return g;
     }
   };
-  const [filter, setFilter] = useState<Filter>(initialFilter ?? { gender: [], category: [], brand: [], size: [], shoeSize: [], color: [] });
+  const [filter, setFilter] = useState<Filter>(initialFilter ?? { gender: [], category: [], brand: [], size: [], shoeSize: [], color: [], tag: [] });
 
   useEffect(() => {
-    setFilter(initialFilter ?? { gender: [], category: [], brand: [], size: [], shoeSize: [], color: [] });
+    setFilter(initialFilter ?? { gender: [], category: [], brand: [], size: [], shoeSize: [], color: [], tag: [] });
   }, [initialFilter]);
 
-  const handleListToggle = (key: 'gender' | 'category' | 'brand' | 'size' | 'shoeSize' | 'color', value: string) => {
+  const handleListToggle = (key: 'gender' | 'category' | 'brand' | 'size' | 'shoeSize' | 'color' | 'tag', value: string) => {
     const normalizedValue = key === 'gender' ? value.toUpperCase() : value;
     const currentValues = filter[key] ?? [];
     const newValues = currentValues.includes(normalizedValue)
@@ -101,7 +102,7 @@ export function FilterBar({ products, onFilterChange, initialFilter, onClose }: 
   };
 
   const clearFilters = () => {
-    const nextFilter = { gender: [], category: [], brand: [], size: [], shoeSize: [], color: [], search: undefined };
+    const nextFilter = { gender: [], category: [], brand: [], size: [], shoeSize: [], color: [], tag: [], search: undefined };
     setFilter(nextFilter);
     onFilterChange(nextFilter);
   };
@@ -233,6 +234,24 @@ export function FilterBar({ products, onFilterChange, initialFilter, onClose }: 
                     onChange={() => handleListToggle('shoeSize', size)}
                   />
                   <span className={styles.checkboxLabel}>{size}</span>
+                </label>
+              ))}
+            </div>
+          </div>
+          {/* Product Groups moved to bottom */}
+          <div className={styles.group}>
+            <span className={styles.label}>Ürün Grupları</span>
+            <div className={styles.checkboxList}>
+              {['HYPE','ONE_CIKAN','YENI','INDIRIMDE'].map((t) => (
+                <label key={t} className={styles.checkboxItem}>
+                  <input
+                    type="checkbox"
+                    checked={filter.tag?.includes(t) ?? false}
+                    onChange={() => handleListToggle('tag', t)}
+                  />
+                  <span className={styles.checkboxLabel}>
+                    {t === 'HYPE' ? 'Hype' : t === 'ONE_CIKAN' ? 'Öne Çıkan' : t === 'YENI' ? 'Yeni' : 'İndirimde'}
+                  </span>
                 </label>
               ))}
             </div>

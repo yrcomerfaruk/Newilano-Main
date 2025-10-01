@@ -23,13 +23,14 @@ type Props = {
     features: string[];
     productUrl?: string;
     tags?: string[];
+    discoverTags?: string[];
   };
 };
 
 function parseList(input: FormDataEntryValue | null | string) {
   if (!input) return [] as string[];
   return String(input)
-    .split(',')
+    .split(/[،,;\n]+/) // comma, Arabic comma, semicolon, or newline
     .map((item) => item.trim())
     .filter(Boolean);
 }
@@ -43,12 +44,7 @@ function normalizeProductUrl(input: string) {
   return `https://${trimmed}`;
 }
 
-const TAG_MAP: Record<string, string> = {
-  HYPE: 'Hype',
-  YENI: 'Yeni',
-  ONE_CIKAN: 'Öne Çıkan',
-  INDIRIMDE: 'İndirimde'
-};
+// Legacy product tags are deprecated in admin UI; use discoverTags instead.
 
 export function AdminProductForm({ brands, product }: Props) {
   const [submitting, setSubmitting] = useState(false);
@@ -75,7 +71,11 @@ export function AdminProductForm({ brands, product }: Props) {
   const [colors, setColors] = useState(product?.colors.join(', ') ?? '');
   const [features, setFeatures] = useState(product?.features.join(', ') ?? '');
   const [productUrl, setProductUrl] = useState(product?.productUrl ?? '');
-  const [tags, setTags] = useState<string[]>(product?.tags ?? []);
+  // legacy tags removed from UI
+  const [discoverTags, setDiscoverTags] = useState<string[]>(product?.discoverTags ?? []);
+  // restore product flags for home carousels
+  const TAG_OPTIONS = useMemo(() => ['HYPE', 'ONE_CIKAN', 'YENI', 'INDIRIMDE'] as const, []);
+  const [tags, setTags] = useState<string[]>(Array.isArray(product?.tags) ? product!.tags! : []);
 
   useEffect(() => {
     if (product) {
@@ -93,7 +93,9 @@ export function AdminProductForm({ brands, product }: Props) {
       setImageName('Mevcut görsel');
       setGalleryData(product.gallery ?? []);
       setProductUrl(product.productUrl ?? '');
-      setTags(product.tags ?? []);
+      // legacy tags ignored
+      setDiscoverTags(product.discoverTags ?? []);
+      setTags(Array.isArray(product.tags) ? product.tags : []);
     }
   }, [product]);
 
@@ -286,7 +288,8 @@ export function AdminProductForm({ brands, product }: Props) {
           colors: parseList(colors),
           features: parseList(features),
           productUrl: normalizedProductUrlValue,
-          tags: tags
+          tags,
+          discoverTags: discoverTags
         })
       });
 
@@ -313,6 +316,8 @@ export function AdminProductForm({ brands, product }: Props) {
         setColors('');
         setFeatures('');
         setProductUrl('');
+        // legacy tags reset removed
+        setDiscoverTags([]);
         setTags([]);
         setImageData(null);
         setImageName(null);
@@ -421,28 +426,45 @@ export function AdminProductForm({ brands, product }: Props) {
           />
         </span>
       </label>
-      <div className={styles.adminFormGroup}>
-        <span className={styles.adminFormLabel}>Etiketler</span>
-        <div className={styles.checkboxGroup}>
-          {Object.entries(TAG_MAP).map(([value, label]) => (
-            <label key={value}>
+      {/* Product flags for home page sections */}
+      <fieldset>
+        <legend>Ürün Etiketleri</legend>
+        <div className={styles.adminFormInline}>
+          {TAG_OPTIONS.map((t) => (
+            <label key={t} style={{ display: 'inline-flex', alignItems: 'center', gap: 6 }}>
               <input
                 type="checkbox"
-                value={value}
-                checked={tags.includes(value)}
-                onChange={(event) => {
-                  if (event.target.checked) {
-                    setTags([...tags, value]);
-                  } else {
-                    setTags(tags.filter((t) => t !== value));
-                  }
+                checked={tags.includes(t)}
+                disabled={submitting}
+                onChange={(e) => {
+                  const checked = e.target.checked;
+                  setTags((prev) => {
+                    const set = new Set(prev);
+                    if (checked) set.add(t); else set.delete(t);
+                    // keep order as in TAG_OPTIONS
+                    return TAG_OPTIONS.filter((x) => set.has(x));
+                  });
                 }}
               />
-              {label}
+              <span>
+                {t === 'HYPE' ? 'Hype' : t === 'ONE_CIKAN' ? 'Öne Çıkan' : t === 'YENI' ? 'Yeni' : t === 'INDIRIMDE' ? 'İndirimde' : t}
+              </span>
             </label>
           ))}
         </div>
-      </div>
+      </fieldset>
+      {/* Legacy product tags UI removed. Use discoverTags below. */}
+      <label>
+        Keşfet Etiketleri (virgülle ayır)
+        <input
+          name="discoverTags"
+          type="text"
+          placeholder="ör. samba, retro, koşu"
+          disabled={submitting}
+          value={discoverTags.join(', ')}
+          onChange={(event) => setDiscoverTags(parseList(event.target.value))}
+        />
+      </label>
       <label>
         Ürün Linki
         <input

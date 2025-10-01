@@ -1,3 +1,24 @@
+.introTopRow { display: flex; justify-content: flex-start; }
+.topBackButton {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: transparent;
+  color: #222222;
+  border: 1px solid #e5e5e5;
+  padding: 6px 10px; /* smaller */
+  border-radius: 10px;
+  font-weight: 600;
+  font-size: 13px; /* smaller text */
+}
+
+/* Outside back button (absolute, top-left of overlay) */
+.introBackWrap {
+  position: absolute;
+  top: 16px;
+  left: 16px;
+  z-index: 110;
+}
 .root {
   position: fixed;
   inset: 0;
@@ -5,7 +26,93 @@
   color: #fff;
   display: grid;
   grid-template-rows: 1fr;
+  /* Prevent viewport refresh/overscroll bounce from propagating */
+  overscroll-behavior: none;
 }
+
+/* Intro overlay - white, clean, full page */
+.introRoot {
+  position: fixed;
+  inset: 0;
+  background: #ffffff;
+  display: grid;
+  place-items: center;
+  color: #111;
+  padding: 16px;
+  z-index: 100;
+}
+
+.introCard {
+  width: min(720px, 96vw);
+  background: #fff;
+  border: 1px solid #eaeaea;
+  border-radius: 16px;
+  padding: 22px 18px;
+  display: grid;
+  gap: 16px;
+}
+
+/* Intro header alignment: left on desktop, center on mobile */
+.introHeader {
+  display: grid;
+  gap: 12px;
+  justify-items: start; /* left on all screens */
+  text-align: left;
+  margin-bottom: 4px; /* extra space before chips */
+}
+/* keep left alignment on mobile as well */
+@media (max-width: 767px) {
+  .introForm { text-align: left; }
+  .chips { justify-content: flex-start; }
+}
+
+.introForm { display: grid; gap: 16px; }
+.introForm label { display: grid; gap: 8px; font-size: 14px; color: #333; }
+
+.chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px; /* a bit more spacing between tag chips */
+  justify-content: flex-start;
+  margin-top: 6px; /* space between header text and tags */
+}
+.chip {
+  border: 1px solid #e5e5e5;
+  background: #fafafa;
+  color: #222;
+  border-radius: 999px;
+  padding: 8px 14px;
+  font-size: 14px;
+  cursor: pointer;
+  transition: background 160ms ease, border-color 160ms ease, color 160ms ease, box-shadow 160ms ease;
+}
+.chipActive {
+  border-color: #111;
+  background: transparent; /* outlined active, not black fill */
+  color: #111;
+}
+.chip:hover {
+  background: #f2f2f2;
+}
+.chip:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 2px rgba(0,0,0,0.12);
+}
+
+.introActions { display: flex; justify-content: flex-end; margin-top: 12px; }
+.startButton {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: transparent;
+  color: #222222;
+  border: 1px solid #e5e5e5; /* outlined */
+  padding: 10px 14px;
+  border-radius: 12px;
+  font-weight: 700;
+  transition: background 160ms ease, border-color 160ms ease, color 160ms ease, box-shadow 160ms ease;
+}
+.introHint { font-size: 12px; color: #666; text-align: center; }
 
 /* Desktop two-column layout */
 .desktopGrid {
@@ -98,6 +205,8 @@
   height: 100%;
   overflow: hidden;
   touch-action: pan-y pinch-zoom;
+  /* Contain vertical overscroll so browser P2R doesn’t trigger */
+  overscroll-behavior-y: contain;
 }
 
 .galleryTrack {
@@ -441,6 +550,7 @@
 
 /* Mobile-first overrides to preserve original mobile layout */
 @media (max-width: 767px) {
+  .introActions { justify-content: flex-end; }
   .desktopLayout { display: block; height: 100%; }
   .sidePanel { display: none; }
   .frameArea { height: 100%; }

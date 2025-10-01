@@ -4,7 +4,7 @@ import Link from 'next/link';
 import { useEffect, useMemo, useRef, useState } from 'react';
 import styles from './ProductDetail.module.css';
 import type { ProductDetail } from '@/lib/data';
-import { EyeIcon } from './icons';
+import { EyeIcon, LeftArrowIcon, RightArrowIcon } from './icons';
 import { FavoriteButton } from './FavoriteButton';
 import { ShareButtons } from './ShareButtons';
  
@@ -21,9 +21,9 @@ export function ProductDetailView({ product }: Props) {
 
   const [activeImage, setActiveImage] = useState(() => galleryImages[0] ?? product.image);
   const [isDragging, setIsDragging] = useState(false);
+  const [zoomOpen, setZoomOpen] = useState(false);
   const startXRef = useRef(0);
   const deltaXRef = useRef(0);
-  const thumbsRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
     setActiveImage(galleryImages[0] ?? product.image);
@@ -86,6 +86,9 @@ export function ProductDetailView({ product }: Props) {
           onTouchStart={(e) => onStart(e.touches[0]?.clientX ?? 0)}
           onTouchMove={(e) => onMove(e.touches[0]?.clientX ?? 0)}
           onTouchEnd={onEnd}
+          onClick={() => setZoomOpen(true)}
+          role="button"
+          aria-label="Görseli büyüt"
         >
           <Image
             src={activeImage}
@@ -95,40 +98,51 @@ export function ProductDetailView({ product }: Props) {
             priority
             unoptimized={isDataImage(activeImage)}
           />
-        </div>
-        <div
-          className={styles.thumbnailRow}
-          ref={thumbsRef}
-          onWheel={(e) => {
-            if (Math.abs(e.deltaX) < Math.abs(e.deltaY)) {
-              (e.currentTarget as HTMLDivElement).scrollLeft += e.deltaY;
-              e.preventDefault();
-            }
-          }}
-        >
-          {galleryImages.map((image, index) => {
-            const isActive = image === activeImage;
-            return (
+          {/* desktop nav arrows */}
+          {galleryImages.length > 1 && (
+            <>
               <button
-                key={`${image}-${index}`}
                 type="button"
-                className={isActive ? `${styles.thumbnail} ${styles.thumbnailActive}` : styles.thumbnail}
-                onClick={() => setActiveImage(image)}
-                aria-label={`${product.name} görsel ${index + 1}`}
-                aria-current={isActive ? 'true' : undefined}
+                className={`${styles.navArrow} ${styles.navLeft}`}
+                aria-label="Önceki görsel"
+                onClick={(e) => { e.stopPropagation(); goPrev(); }}
               >
-                <Image
-                  src={image}
-                  alt=""
-                  fill
-                  sizes="120px"
-                  unoptimized={isDataImage(image)}
-                />
+                <LeftArrowIcon width={18} height={18} />
               </button>
-            );
-          })}
+              <button
+                type="button"
+                className={`${styles.navArrow} ${styles.navRight}`}
+                aria-label="Sonraki görsel"
+                onClick={(e) => { e.stopPropagation(); goNext(); }}
+              >
+                <RightArrowIcon width={18} height={18} />
+              </button>
+            </>
+          )}
+          {/* swipe dots hint */}
+          {galleryImages.length > 1 && (
+            <div className={styles.swipeHint} aria-hidden>
+              {galleryImages.map((img, i) => (
+                <span key={i} className={i === galleryImages.indexOf(activeImage) ? styles.hintDotActive : styles.hintDot} />
+              ))}
+            </div>
+          )}
         </div>
       </div>
+
+      {zoomOpen && (
+        <div className={styles.zoomOverlay} role="dialog" aria-modal="true" aria-label="Büyük görsel">
+          <div className={styles.zoomInner}>
+            <button type="button" className={styles.zoomClose} aria-label="Kapat" onClick={() => setZoomOpen(false)}>×</button>
+            <img
+              src={activeImage}
+              alt={product.name}
+              className={styles.zoomImage}
+              draggable={false}
+            />
+          </div>
+        </div>
+      )}
 
       <div className={styles.info}>
         <span className={styles.brand}>{product.brand}</span>
@@ -171,10 +185,6 @@ export function ProductDetailView({ product }: Props) {
           <div>
             <span>Renk</span>
             <strong>{product.colors.join(', ')}</strong>
-          </div>
-          <div>
-            <span>Materyal</span>
-            <strong>-</strong>
           </div>
         </div>
 

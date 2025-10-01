@@ -158,6 +158,22 @@ export function LeftArrowIcon(props: SVGProps<SVGSVGElement>) {
   );
 }
 
+export function RightArrowIcon(props: SVGProps<SVGSVGElement>) {
+  return (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" {...props}>
+      <polyline points="9 18 15 12 9 6" />
+    </svg>
+  );
+}
+
+export function UpArrowIcon(props: SVGProps<SVGSVGElement>) {
+  return (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" {...props}>
+      <polyline points="6 15 12 9 18 15" />
+    </svg>
+  );
+}
+
 export function ExploreIcon(props: SVGProps<SVGSVGElement>) {
   // Compass-like explore icon
   return (

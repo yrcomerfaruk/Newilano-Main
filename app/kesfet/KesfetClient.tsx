@@ -5,7 +5,8 @@ import styles from './page.module.css';
 import type { ProductDetail } from '@/lib/data';
 import Link from 'next/link';
 import { FavoriteButton } from '@/components/FavoriteButton';
-import { ShareIcon, ProductIcon, LeftArrowIcon } from '@/components/icons';
+import { ShareIcon, ProductIcon, LeftArrowIcon, RightArrowIcon } from '@/components/icons';
+import { Logo } from '@/components/Logo';
 
 type Props = { products: ProductDetail[]; brandMap?: Record<string, { name: string; logo?: string; slug: string }> };
 
@@ -21,12 +22,44 @@ export default function KesfetClient({ products, brandMap = {} }: Props) {
   const [visitCount, setVisitCount] = useState<number>(0);
   const [isMobile, setIsMobile] = useState(false);
 
-  const current = products[index];
+  // Intro state: ask user what to explore
+  const [showIntro, setShowIntro] = useState(true);
+  // selection-based intro using real filter data (no free-text inputs)
+  const [activeProducts, setActiveProducts] = useState<ProductDetail[]>(products);
+  const activeLength = activeProducts.length;
+
+  const current = activeProducts[index];
   const gallery = current?.gallery?.length ? current.gallery : [current?.image].filter(Boolean) as string[];
+
+  // Tag-driven discover (simple and professional)
+  const tags = useMemo(() => {
+    const set = new Set<string>();
+    products.forEach(p => {
+      const base = (p.discoverTags || []) as string[];
+      base.forEach(t => set.add(String(t)));
+    });
+    return Array.from(set).sort();
+  }, [products]);
+
+  type LocalFilter = { tags: string[] };
+  const [introFilter, setIntroFilter] = useState<LocalFilter>({ tags: [] });
+
+  const toggle = (key: keyof LocalFilter, value: string) => {
+    setIntroFilter((prev) => {
+      const arr = prev[key];
+      const exists = arr.includes(value);
+      const next = exists ? arr.filter(v => v !== value) : [...arr, value];
+      return { ...prev, [key]: next } as LocalFilter;
+    });
+  };
+
+  // Truncated description with toggle (must be before any conditional rendering)
+  const [expanded, setExpanded] = useState(false);
+  const shortDesc = useMemo(() => (current?.description || '').slice(0, 120), [current?.description]);
 
   // Preload next product image(s)
   useEffect(() => {
-    const next = products[index + 1];
+    const next = activeProducts[index + 1];
     if (next) {
       const imgs = next.gallery?.length ? next.gallery : [next.image];
       imgs.slice(0, 2).forEach((src) => {
@@ -34,7 +67,7 @@ export default function KesfetClient({ products, brandMap = {} }: Props) {
         img.src = src;
       });
     }
-  }, [index, products]);
+  }, [index, activeProducts]);
 
   // Reset gallery position when product changes
   useEffect(() => {
@@ -85,8 +118,8 @@ export default function KesfetClient({ products, brandMap = {} }: Props) {
     }
 
     // Vertical swipe for product
-    if (dy < -80 && index < products.length - 1) {
-      setIndex((i) => Math.min(i + 1, products.length - 1));
+    if (dy < -80 && index < activeLength - 1) {
+      setIndex((i) => Math.min(i + 1, activeLength - 1));
     } else if (dy > 80 && index > 0) {
       setIndex((i) => Math.max(i - 1, 0));
     }
@@ -99,14 +132,14 @@ export default function KesfetClient({ products, brandMap = {} }: Props) {
   // Keyboard support for desktop
   useEffect(() => {
     const handler = (e: KeyboardEvent) => {
-      if (e.key === 'ArrowDown' && index < products.length - 1) setIndex((i) => i + 1);
+      if (e.key === 'ArrowDown' && index < activeLength - 1) setIndex((i) => i + 1);
       if (e.key === 'ArrowUp' && index > 0) setIndex((i) => i - 1);
       if (e.key === 'ArrowRight' && imageIndex < gallery.length - 1) setImageIndex((i) => Math.min(i + 1, gallery.length - 1));
       if (e.key === 'ArrowLeft' && imageIndex > 0) setImageIndex((i) => Math.max(i - 1, 0));
     };
     window.addEventListener('keydown', handler);
     return () => window.removeEventListener('keydown', handler);
-  }, [index, products.length, gallery.length, imageIndex]);
+  }, [index, activeLength, gallery.length, imageIndex]);
 
   // Desktop wheel scrolling support
   useEffect(() => {
@@ -118,13 +151,13 @@ export default function KesfetClient({ products, brandMap = {} }: Props) {
         return;
       }
       // vertical for product navigation
-      if (e.deltaY > 30 && index < products.length - 1) setIndex((i) => Math.min(i + 1, products.length - 1));
+      if (e.deltaY > 30 && index < activeLength - 1) setIndex((i) => Math.min(i + 1, activeLength - 1));
       if (e.deltaY < -30 && index > 0) setIndex((i) => Math.max(i - 1, 0));
     };
     window.addEventListener('wheel', onWheel, { passive: true });
     return () => window.removeEventListener('wheel', onWheel as any);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [index, products.length, gallery.length, imageIndex]);
+  }, [index, activeLength, gallery.length, imageIndex]);
 
   // no comment sheet => no body scroll lock
 
@@ -166,18 +199,80 @@ export default function KesfetClient({ products, brandMap = {} }: Props) {
 
   // comments removed
 
-  if (!current) return null;
+  const [introError, setIntroError] = useState<string | null>(null);
+  const startExplore = () => {
+    const f = introFilter;
+    // Allow exploring without selecting any tag
+    const filtered = f.tags.length
+      ? products.filter((p) => {
+          const productTags = (p.discoverTags || []).map(String);
+          return f.tags.some((t) => productTags.includes(t));
+        })
+      : products;
+
+    if (filtered.length === 0) {
+      setIntroError('Seçilen etiketlerde ürün bulunamadı.');
+      return;
+    }
+    setIntroError(null);
+    setActiveProducts(filtered);
+    setIndex(0);
+    setImageIndex(0);
+    setShowIntro(false);
+  };
+
+  if (!current && !showIntro) return null;
 
   const transform = `translateX(${-imageIndex * 100}%) translateX(${x}px)`;
 
   // Truncated description with toggle
-  const [expanded, setExpanded] = useState(false);
-  const shortDesc = useMemo(() => (current.description || '').slice(0, 120), [current?.description]);
+  // (Defined earlier at top-level to keep hooks order stable)
 
   return (
     <div className={styles.root}>
+      {showIntro && (
+        <div className={styles.introRoot}>
+          <div className={styles.introBackWrap}>
+            <Link href="/" className={styles.topBackButton} aria-label="Geri Dön">
+              <LeftArrowIcon width={14} height={14} /> Geri Dön
+            </Link>
+          </div>
+          <div className={styles.introCard}>
+            <div className={styles.introHeader}>
+              <Logo />
+              <h2 style={{margin:'0 0 4px'}}>Keşfetmeye Başla</h2>
+              <p style={{margin:0, color:'#444'}}>Etiketleri seç; sana uygun ürünleri birlikte keşfedelim.</p>
+            </div>
+
+            <div className={styles.introForm}>
+              {tags.length > 0 && (
+                <div>
+                  <div className={styles.chips}>
+                    {tags.map((t) => (
+                      <button key={t} type="button" className={introFilter.tags.includes(t) ? `${styles.chip} ${styles.chipActive}` : styles.chip} onClick={() => toggle('tags', t)}>
+                        {t}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+              )}
+            </div>
+
+            <div className={styles.introActions}>
+              <button type="button" onClick={startExplore} className={styles.startButton}>
+                Keşfet <RightArrowIcon width={16} height={16} />
+              </button>
+            </div>
+            {introError ? (
+              <p className={styles.introHint} style={{ color: '#c00' }}>{introError}</p>
+            ) : (
+              <p className={styles.introHint}>Etiket seçmeden de keşfedebilirsin.</p>
+            )}
+          </div>
+        </div>
+      )}
       {/* Desktop layout: left panel + right visual channel */}
-      {!isMobile ? (
+      {!showIntro && !isMobile ? (
         <div className={styles.desktopGrid}>
           <aside className={styles.leftPanel}>
             <div className={styles.productName}>{current.brand} {current.name}</div>
@@ -324,7 +419,7 @@ export default function KesfetClient({ products, brandMap = {} }: Props) {
             </div>
           </aside>
         </div>
-      ) : (
+      ) : (!showIntro && (
         /* Mobile layout (unchanged) */
         <>
           <div className={styles.slide} onTouchStart={onTouchStart} onTouchMove={onTouchMove} onTouchEnd={onTouchEnd}>
@@ -454,7 +549,7 @@ export default function KesfetClient({ products, brandMap = {} }: Props) {
             </div>
           </div>
         </>
-      )}
+      ))}
 
       {/* comments removed */}
     </div>

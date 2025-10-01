@@ -16,6 +16,7 @@ export default async function AdminHeroPage() {
     title: slide.title,
     subtitle: slide.subtitle,
     image: slide.image,
+    mobileImage: slide.mobileImage,
     ctaLabel: slide.ctaLabel,
     ctaHref: slide.ctaHref
   }));

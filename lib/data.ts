@@ -22,6 +22,7 @@ export type Product = {
   image: string;
   gender?: 'ERKEK' | 'KADIN' | 'UNISEX';
   tags?: ('HYPE' | 'ONE_CIKAN' | 'YENI' | 'INDIRIMDE')[];
+  discoverTags?: string[];
   productUrl?: string;
   favoriteCount?: number;
 };
@@ -120,8 +121,6 @@ export type HeroSlide = {
   ctaHref: string;
   image: string;
   mobileImage?: string;
-  tabletImage?: string;
-  desktopImage?: string;
 };
 
 export type BrandSummary = {
@@ -150,7 +149,6 @@ function formatPrice(value: number, currency: string) {
   const symbol = currency === 'TRY' ? 'TL' : currency;
   return `${formatted} ${symbol}`;
 }
-
 function mapProduct(doc: any): ProductDetail {
   const priceValue = typeof doc.price === 'number' ? doc.price : Number(doc.price ?? 0);
   const currency = typeof doc.currency === 'string' ? doc.currency : 'TRY';
@@ -173,7 +171,8 @@ function mapProduct(doc: any): ProductDetail {
           return undefined;
         })()
       : undefined,
-    tags: doc.tags,
+    tags: Array.isArray(doc.tags) ? doc.tags : [],
+    discoverTags: Array.isArray(doc.discoverTags) ? doc.discoverTags : [],
     productUrl: typeof doc.productUrl === 'string' && doc.productUrl.trim() ? doc.productUrl.trim() : undefined,
     description: doc.description,
     gallery: Array.isArray(doc.gallery) ? doc.gallery : [],
@@ -183,7 +182,6 @@ function mapProduct(doc: any): ProductDetail {
     createdAt: doc.createdAt ?? new Date()
   };
 }
-
 const defaultHeroSlides: HeroSlide[] = [
   {
     id: 'samba-release',
@@ -274,9 +272,7 @@ function mapHeroSlide(doc: any): HeroSlide {
     ctaLabel: doc.ctaLabel,
     ctaHref: doc.ctaHref,
     image: doc.image,
-    mobileImage: doc.mobileImage ?? undefined,
-    tabletImage: doc.tabletImage ?? undefined,
-    desktopImage: doc.desktopImage ?? undefined
+    mobileImage: doc.mobileImage ?? undefined
   };
 }
 

@@ -39,8 +39,7 @@
 }
 
 .logoWrap img {
-  object-fit: contain;
-  padding: 4px;
+  object-fit: cover; /* fill the circular area */
 }
 
 .nameAndTags {

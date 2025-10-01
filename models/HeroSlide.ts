@@ -9,8 +9,6 @@ export type HeroSlideDocument = {
   ctaHref: string;
   image: string;
   mobileImage?: string;
-  tabletImage?: string;
-  desktopImage?: string;
   order: number;
   createdAt: Date;
   updatedAt: Date;
@@ -55,14 +53,6 @@ const HeroSlideSchema = new Schema<HeroSlideDocument>(
       trim: true
     },
     mobileImage: {
-      type: String,
-      trim: true
-    },
-    tabletImage: {
-      type: String,
-      trim: true
-    },
-    desktopImage: {
       type: String,
       trim: true
     },

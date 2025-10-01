@@ -49,13 +49,8 @@ export function HeroSection({ slides }: Props) {
       setCurrentSrc(null);
       return;
     }
-    const isMobile = viewportWidth <= 768;
-    const isTablet = viewportWidth > 768 && viewportWidth <= 1024;
-
-    let src: string | undefined;
-    if (isMobile) src = activeSlide.mobileImage || activeSlide.image;
-    else if (isTablet) src = activeSlide.tabletImage || activeSlide.mobileImage || activeSlide.image;
-    else src = activeSlide.desktopImage || activeSlide.tabletImage || activeSlide.image;
+    const isMobile = viewportWidth <= 500;
+    const src = isMobile ? (activeSlide.mobileImage || activeSlide.image) : activeSlide.image;
     setCurrentSrc(src ?? activeSlide.image);
   }, [activeSlide, viewportWidth]);
 
@@ -109,7 +104,7 @@ export function HeroSection({ slides }: Props) {
             alt={activeSlide.title}
             fill
             priority
-            sizes="(max-width: 768px) 100vw, (max-width: 1024px) 100vw, 100vw"
+            sizes="100vw"
             unoptimized={(currentSrc ?? activeSlide.image).startsWith('data:image/')}
             draggable={false}
           />

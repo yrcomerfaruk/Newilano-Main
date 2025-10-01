@@ -12,6 +12,7 @@ export type ProductDocument = {
   image: string;
   gender?: 'ERKEK' | 'KADIN' | 'UNISEX';
   tags?: ('HYPE' | 'ONE_CIKAN' | 'YENI' | 'INDIRIMDE')[];
+  discoverTags?: string[];
   description: string;
   productUrl?: string;
   gallery: string[];
@@ -75,6 +76,11 @@ const ProductSchema = new Schema<ProductDocument>(
       type: [String],
       enum: ['HYPE', 'ONE_CIKAN', 'YENI', 'INDIRIMDE'],
       default: []
+    },
+    discoverTags: {
+      type: [String],
+      default: [],
+      set: (values: string[]) => Array.from(new Set(values)).filter(Boolean)
     },
     description: {
       type: String,

@@ -52,14 +52,27 @@ export function AdminHeroList({ slides }: { slides: HeroListItem[] }) {
       {feedback ? <p className={styles.adminFormMessage}>{feedback}</p> : null}
       {slides.map((slide) => (
         <article key={slide.id} className={styles.campaignCard}>
-          <div className={styles.campaignImage}>
-            <Image
-              src={slide.image.startsWith('data:image/') ? slide.image : isAllowedImageUrl(slide.image) ? slide.image : fallback}
-              alt={slide.title}
-              fill
-              sizes="260px"
-              unoptimized={slide.image.startsWith('data:image/')}
-            />
+          <div style={{ display: 'flex', gap: '12px', width: '100%' }}>
+            <div className={styles.campaignImage} style={{ position: 'relative', flex: '1 1 0' }}>
+              <Image
+                src={slide.image.startsWith('data:image/') ? slide.image : isAllowedImageUrl(slide.image) ? slide.image : fallback}
+                alt={slide.title}
+                fill
+                sizes="260px"
+                unoptimized={slide.image.startsWith('data:image/')}
+              />
+            </div>
+            {slide.mobileImage ? (
+              <div className={styles.campaignImage} style={{ position: 'relative', flex: '1 1 0' }}>
+                <Image
+                  src={slide.mobileImage.startsWith('data:image/') ? slide.mobileImage : isAllowedImageUrl(slide.mobileImage) ? slide.mobileImage : fallback}
+                  alt={`${slide.title} (mobil)`}
+                  fill
+                  sizes="260px"
+                  unoptimized={slide.mobileImage.startsWith('data:image/')}
+                />
+              </div>
+            ) : null}
           </div>
           <div className={styles.campaignContent}>
             <div>

@@ -95,7 +95,8 @@ export async function PATCH(request: NextRequest, { params }: { params: { id: st
     colors,
     features,
     productUrl,
-    tags
+    tags,
+    discoverTags
   } = body ?? {};
 
   await connectToDatabase();
@@ -123,6 +124,7 @@ export async function PATCH(request: NextRequest, { params }: { params: { id: st
   if (Array.isArray(features)) update.features = features;
   if (Array.isArray(galleryData)) update.gallery = galleryData;
   if (Array.isArray(tags)) update.tags = tags;
+  if (Array.isArray(discoverTags)) update.discoverTags = discoverTags;
 
   if (typeof imageData === 'string') {
     if (imageData.startsWith('data:image/')) {

@@ -1,16 +1,31 @@
 import type { Metadata } from 'next';
-import { Inter } from 'next/font/google';
+import type { Viewport } from 'next';
 import { Providers } from '@/components/Providers';
 import { FooterController } from '@/components/FooterController';
 import { HeaderController } from '@/components/HeaderController';
 import { auth } from '@/lib/auth';
 import './globals.css';
 
-const inter = Inter({ subsets: ['latin'] });
+// Using system font stack via globals.css
 
 export const metadata: Metadata = {
   title: 'Newilano | Sneaker & Lifestyle Store',
-  description: 'Newilano ile en hype sneaker ve lifestyle ürünlerini keşfedin.'
+  description: 'Newilano ile en hype sneaker ve lifestyle ürünlerini keşfedin.',
+  // iOS Safari ve genel mobil uyumluluk için meta
+  formatDetection: {
+    telephone: false,
+    email: false,
+    address: false
+  },
+  other: {
+    'apple-mobile-web-app-capable': 'yes'
+  }
+};
+
+export const viewport: Viewport = {
+  width: 'device-width',
+  initialScale: 1,
+  viewportFit: 'cover'
 };
 
 export default async function RootLayout({
@@ -22,7 +37,7 @@ export default async function RootLayout({
 
   return (
     <html lang="tr">
-      <body className={inter.className}>
+      <body>
         <Providers session={session}>
           <HeaderController />
           {children}

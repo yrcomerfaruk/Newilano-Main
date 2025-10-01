@@ -60,7 +60,8 @@ export async function POST(request: NextRequest) {
     colors = [],
     features = [],
     productUrl,
-    tags = []
+    tags = [],
+    discoverTags = []
   } = body ?? {};
 
   if (!name || typeof name !== 'string') {
@@ -130,7 +131,8 @@ export async function POST(request: NextRequest) {
     colors,
     features,
     productUrl: normalizedProductUrl,
-    tags
+    tags,
+    discoverTags: Array.isArray(discoverTags) ? discoverTags : []
   });
 
   void recordAdminAudit(
@@ -145,7 +147,8 @@ export async function POST(request: NextRequest) {
         slug,
         brandId,
         category,
-        tags
+        tags,
+        discoverTags
       }
     },
     request.headers

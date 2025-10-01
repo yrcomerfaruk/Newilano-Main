@@ -1,24 +1,39 @@
 .section {
   display: grid;
   grid-template-columns: minmax(300px, 520px) 1fr; /* yatay genişliği sınırla */
-  gap: clamp(1.25rem, 3.5vw, 2.5rem); /* sütunlar arası boşluğu küçült */
+  gap: clamp(1.25rem, 3.5vw, 2.5rem); /* sütunlar arası boşluk */
   align-items: start;
   margin: 2rem auto 0; /* ortala */
-  max-width: 1120px; /* toplam genişliği sınırla */
+  max-width: 1120px; /* Toplam genişliği sınırla */
 }
 
-.gallery {
-  display: flex;
-  flex-direction: column;
-  gap: 1.2rem;
-  max-width: 520px; /* galeri genişliğini sınırla */
+.zoomOverlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.9);
+  z-index: 1000;
+  display: grid;
+  place-items: center; /* center fixed zoom area */
 }
-
-.mainImage {
+.zoomInner {
   position: relative;
+  width: min(90vw, 1000px);
+  height: min(90vh, 800px);
+  overflow: hidden; /* no pan/scroll */
+  background: #000;
+}
+
+.zoomImage {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: contain; /* keep aspect, fit in fixed area */
+}
+.mainImage {
+  position: relative; /* next/image fill için gerekli */
   width: 100%;
   aspect-ratio: 4 / 5;
-  border-radius: 1.6rem;
+  border-radius: 0; /* köşeler sivri */
   overflow: hidden;
   /* Düz arka plan, gölgesiz */
   background: #ffffff;
@@ -26,6 +41,65 @@
 
 .mainImage img {
   object-fit: cover;
+}
+
+/* Swipe hint dots overlay in main image */
+.swipeHint {
+  position: absolute;
+  left: 50%;
+  bottom: 10px;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 6px;
+  z-index: 2;
+}
+.hintDot, .hintDotActive {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: rgba(17,17,17,0.35);
+}
+.hintDotActive { background: #111111; }
+
+/* Desktop navigation arrows */
+.navArrow {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 40px;
+  height: 40px;
+  border: 1px solid rgba(0,0,0,0.2);
+  background: rgba(255,255,255,0.95);
+  color: #111;
+  display: none; /* hidden by default, shown on desktop */
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  border-radius: 999px; /* circular */
+  box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+}
+.navLeft { left: 8px; }
+.navRight { right: 8px; }
+
+@media (min-width: 768px) {
+  .navArrow { display: inline-flex; }
+}
+
+/* Zoom close button (X) */
+.zoomClose {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  width: 36px;
+  height: 36px;
+  border-radius: 999px;
+  border: 1px solid rgba(255,255,255,0.25);
+  background: rgba(0,0,0,0.6);
+  color: #fff;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
 }
 
 .thumbnailRow {
@@ -43,9 +117,9 @@
   position: relative;
   width: 75px; /* 75x75 px */
   aspect-ratio: 1;
-  border-radius: 1.1rem;
+  border-radius: 0; /* köşeler sivri */
   overflow: hidden;
-  background: #f6f7fb;
+  background: #ffffff; /* düz arka plan */
   border: 1px solid rgba(148, 163, 184, 0.2);
   display: inline-flex;
   flex: 0 0 auto; /* yatay listede sıkışmayı önle */
@@ -54,7 +128,7 @@
   align-items: stretch;
   justify-content: center;
   cursor: pointer;
-  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+  transition: border-color 0.2s ease;
 }
 
 .thumbnail img {
@@ -62,8 +136,7 @@
 }
 
 .thumbnailActive {
-  border-color: #111111;
-  box-shadow: 0 0 0 4px rgba(17, 17, 17, 0.1);
+  border-color: #111111; /* gölge kaldırıldı */
 }
 
 .thumbnail:focus-visible {
@@ -237,24 +310,7 @@
     gap: 2rem;
   }
 
-  .mainImage {
-    border-radius: 1.35rem;
-  }
+  .mainImage { border-radius: 0; }
 
-  .thumbnail {
-    width: 75px; /* mobilde de 75px sabit */
-    border-radius: 0.9rem;
-  }
-
-  .title {
-    font-size: 30px;
-  }
-
-  .price {
-    font-size: 20px;
-  }
-
-  .shareList {
-    gap: 0.55rem;
-  }
+  .thumbnail { width: 75px; /* mobilde de 75px sabit */ border-radius: 0; }
 }
