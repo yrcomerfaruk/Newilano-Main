@@ -37,6 +37,16 @@ export function SiteHeader() {
   const [searchLoading, setSearchLoading] = useState(false);
   const searchInputRef = useRef<HTMLInputElement>(null);
 
+  // Platform class on <html> for platform-specific CSS tweaks (e.g., iOS vs Android)
+  useEffect(() => {
+    const ua = typeof navigator !== 'undefined' ? navigator.userAgent || '' : '';
+    const isIOS = /iPad|iPhone|iPod/.test(ua);
+    const isAndroid = /Android/.test(ua);
+    const root = document.documentElement;
+    if (isIOS) root.classList.add('is-ios'); else root.classList.remove('is-ios');
+    if (isAndroid) root.classList.add('is-android'); else root.classList.remove('is-android');
+  }, []);
+
   const trimmedQuery = searchTerm.trim();
 
   useEffect(() => {
@@ -208,10 +218,10 @@ export function SiteHeader() {
           </nav>
           <div className={styles.actions}>
             <button className={styles.iconButton} aria-label="Arama" type="button" onClick={handleSearchOpen}>
-              <FiSearch size={20} />
+              <FiSearch />
             </button>
-            <button className={styles.iconButton} aria-label="Favoriler" type="button" onClick={handleFavoritesClick}>
-              <FiHeart size={18} />
+            <button className={`${styles.iconButton} ${styles.favoriteButton}`} aria-label="Favoriler" type="button" onClick={handleFavoritesClick}>
+              <FiHeart />
             </button>
             <AuthButtons />
           </div>
@@ -222,7 +232,7 @@ export function SiteHeader() {
           <div className={styles.searchPanel} role="document">
             <div className={styles.searchHeader}>
               <form className={styles.searchForm} onSubmit={handleSearchSubmit}>
-                <FiSearch size={18} />
+                <FiSearch />
                 <input
                   ref={searchInputRef}
                   type="search"

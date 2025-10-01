@@ -52,7 +52,7 @@ export function AuthButtons() {
         aria-expanded={menuOpen}
         onClick={() => setMenuOpen((open) => !open)}
       >
-        <FiUser size={22} />
+        <FiUser />
       </button>
 
       {menuOpen ? (

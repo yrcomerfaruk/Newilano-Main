@@ -77,7 +77,29 @@
 }
 
 .iconButton:hover {
-  /* No hover effect */
+  background: transparent;
+}
+
+/* Ensure React Icons/inline SVGs render at intended size on iOS */
+.iconButton :global(svg) {
+  width: 1em;
+  height: 1em;
+  font-size: 20px; /* final size */
+  display: block; /* avoid baseline/inline quirks */
+}
+
+/* Make only the Favorites icon slightly smaller */
+.favoriteButton :global(svg) {
+  font-size: 17px;
+}
+
+/* Android-specific override: make Favorites 20px on Android */
+:global(html.is-android) .favoriteButton :global(svg) {
+  font-size: 15px;
+}
+/* Slightly thicker strokes for feather icons on high-density displays */
+.iconButton :global(svg *) {
+  stroke-width: 2.2;
 }
 
 @media (max-width: 920px) {
@@ -127,6 +149,12 @@
   .iconButton {
     width: 2rem;
     height: 2rem;
+  }
+
+  .iconButton :global(svg) {
+    width: 1em;
+    height: 1em;
+    font-size: 20px;
   }
 
   .link,

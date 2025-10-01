@@ -15,8 +15,8 @@
 
   .mobileTrigger {
     display: inline-flex;
-    width: 22px; /* User requested size */
-    height: 22px; /* User requested size */
+    width: 2.25rem;
+    height: 2.25rem;
     border-radius: 999px;
     border: none;
     background: transparent;
@@ -28,7 +28,7 @@
   }
 
   .mobileTrigger:hover {
-    /* No hover effect */
+    background: transparent;
   }
 
 .mobileMenu {
@@ -82,8 +82,8 @@
 
 .mobileTrigger {
   display: inline-flex;
-  width: 2rem;
-  height: 2rem;
+  width: 2.25rem;
+  height: 2.25rem;
   border-radius: 999px;
   border: none;
   background: transparent;
@@ -92,6 +92,14 @@
   justify-content: center;
   cursor: pointer;
   transition: none;
+}
+
+/* Size the user icon SVG similarly to navbar icons */
+.mobileTrigger :global(svg) {
+  width: 1em;
+  height: 1em;
+  font-size: 20px;
+  display: block;
 }
 
 .wrapper {
