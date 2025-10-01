@@ -1,4 +1,5 @@
 import Image from 'next/image';
+import Link from 'next/link';
 import { Breadcrumbs } from '@/components/Breadcrumbs';
 import styles from './page.module.css';
 import { getCampaigns } from '@/lib/data';
@@ -28,7 +29,7 @@ export default async function KampanyalarPage() {
         ) : (
           <div className={styles.grid}>
             {campaigns.map((campaign) => (
-              <article key={campaign.id} className={styles.card}>
+              <Link key={campaign.id} href={`/kampanyalar/${campaign.slug}`} className={styles.card}>
                 <div className={styles.image}>
                   <Image
                     src={campaign.image}
@@ -42,7 +43,7 @@ export default async function KampanyalarPage() {
                   <h2>{campaign.title}</h2>
                   <p>{campaign.description}</p>
                 </div>
-              </article>
+              </Link>
             ))}
           </div>
         )}

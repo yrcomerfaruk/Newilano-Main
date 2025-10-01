@@ -5,9 +5,13 @@ export type CampaignDocument = {
   title: string;
   slug: string;
   description: string;
+  longDescription?: string; // detailed body shown on campaign page
   image: string;
   ctaLabel?: string;
   ctaHref?: string;
+  productSlugs?: string[]; // associated products by slug
+  productIds?: Types.ObjectId[]; // associated products by id
+  endDate?: Date; // campaign end date (optional)
   createdAt: Date;
   updatedAt: Date;
 };
@@ -33,6 +37,12 @@ const CampaignSchema = new Schema<CampaignDocument>(
       trim: true,
       maxlength: 400
     },
+    longDescription: {
+      type: String,
+      trim: true,
+      maxlength: 4000,
+      default: ''
+    },
     image: {
       type: String,
       required: true,
@@ -47,6 +57,19 @@ const CampaignSchema = new Schema<CampaignDocument>(
       type: String,
       trim: true,
       default: '/kampanyalar'
+    },
+    productSlugs: {
+      type: [String],
+      default: []
+    },
+    productIds: {
+      type: [Schema.Types.ObjectId],
+      ref: 'Product',
+      default: []
+    },
+    endDate: {
+      type: Date,
+      default: null
     }
   },
   { timestamps: true }

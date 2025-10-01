@@ -19,7 +19,7 @@ export async function POST(request: NextRequest) {
   }
 
   const body = await request.json();
-  const { title, description, imageData, ctaLabel, ctaHref } = body ?? {};
+  const { title, description, longDescription, imageData, ctaLabel, ctaHref, productSlugs, productIds, endDate } = body ?? {};
 
   if (!title || typeof title !== 'string') {
     return NextResponse.json({ message: 'Kampanya başlığı gereklidir.' }, { status: 400 });
@@ -49,9 +49,17 @@ export async function POST(request: NextRequest) {
     title,
     slug,
     description,
+    longDescription: typeof longDescription === 'string' ? longDescription : undefined,
     image: imageData,
     ctaLabel,
-    ctaHref
+    ctaHref,
+    productSlugs: Array.isArray(productSlugs)
+      ? productSlugs.filter((s: unknown) => typeof s === 'string' && s.trim()).map((s: string) => s.trim())
+      : [],
+    productIds: Array.isArray(productIds)
+      ? productIds.filter((s: unknown) => typeof s === 'string' && s.trim())
+      : [],
+    endDate: typeof endDate === 'string' && endDate.trim() ? new Date(endDate) : null
   });
 
   return NextResponse.json({ campaign }, { status: 201 });

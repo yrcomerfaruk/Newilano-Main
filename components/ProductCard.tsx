@@ -10,9 +10,10 @@ export type ProductCardProps = {
   onRemove?: (productId: string) => void;
   showFavoriteButton?: boolean;
   showFavoriteLabel?: boolean;
+  showBadges?: boolean;
 };
 
-export function ProductCard({ product, onRemove, showFavoriteButton = true, showFavoriteLabel = true }: ProductCardProps) {
+export function ProductCard({ product, onRemove, showFavoriteButton = true, showFavoriteLabel = true, showBadges = true }: ProductCardProps) {
   const isDataImage = product.image.startsWith('data:image/');
 
   const handleRemove = (e: React.MouseEvent) => {
@@ -32,7 +33,7 @@ export function ProductCard({ product, onRemove, showFavoriteButton = true, show
           className={styles.image}
           unoptimized={isDataImage}
         />
-        {Array.isArray(product.tags) && product.tags.length > 0 ? (
+        {showBadges && Array.isArray(product.tags) && product.tags.length > 0 ? (
           <div className={styles.badges} aria-hidden="true">
             {product.tags.slice(0, 2).map((t) => (
               <span

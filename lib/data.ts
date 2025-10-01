@@ -107,9 +107,14 @@ export type Campaign = {
   id: string;
   title: string;
   description: string;
+  slug: string;
   image: string;
   ctaLabel?: string;
   ctaHref?: string;
+  longDescription?: string;
+  productSlugs?: string[];
+  productIds?: string[];
+  endDate?: string; // ISO string
   createdAt?: string;
 };
 
@@ -206,9 +211,14 @@ function mapCampaign(doc: any): Campaign {
     id: doc._id.toString(),
     title: doc.title,
     description: doc.description,
+    slug: doc.slug,
     image: doc.image,
     ctaLabel: doc.ctaLabel ?? undefined,
     ctaHref: doc.ctaHref ?? undefined,
+    longDescription: doc.longDescription ?? undefined,
+    productSlugs: Array.isArray(doc.productSlugs) ? doc.productSlugs : undefined,
+    productIds: Array.isArray(doc.productIds) ? doc.productIds.map((id: any) => String(id)) : undefined,
+    endDate: doc.endDate ? new Date(doc.endDate).toISOString() : undefined,
     createdAt: doc.createdAt ? new Date(doc.createdAt).toISOString() : undefined
   };
 }
@@ -262,6 +272,35 @@ export async function getCampaigns(limit?: number): Promise<Campaign[]> {
   const docs = await CampaignModel.find().sort({ createdAt: -1 }).lean();
   const campaigns = docs.map(mapCampaign);
   return typeof limit === 'number' ? campaigns.slice(0, limit) : campaigns;
+}
+
+export async function getCampaignBySlug(slug: string): Promise<Campaign | null> {
+  if (!slug) return null;
+  await connectToDatabase();
+  const doc = await CampaignModel.findOne({ slug }).lean();
+  return doc ? mapCampaign(doc) : null;
+}
+
+export async function getCampaignProductsBySlug(slug: string): Promise<ProductDetail[]> {
+  const campaign = await getCampaignBySlug(slug);
+  if (!campaign) return [];
+  // Prefer IDs if available
+  if (campaign.productIds && campaign.productIds.length) {
+    return getProductsByIds(campaign.productIds);
+  }
+  if (campaign.productSlugs && campaign.productSlugs.length) {
+    return getProductsBySlugs(campaign.productSlugs);
+  }
+  return [];
+}
+
+export async function getProductsByIds(ids: string[]): Promise<ProductDetail[]> {
+  if (!ids.length) return [];
+  await connectToDatabase();
+  const docs = await Product.find({ _id: { $in: ids } }).lean();
+  // Preserve original order of ids
+  const byId = new Map(docs.map((d) => [String(d._id), mapProduct(d)]));
+  return ids.map((id) => byId.get(String(id))).filter((p): p is ProductDetail => Boolean(p));
 }
 
 function mapHeroSlide(doc: any): HeroSlide {
