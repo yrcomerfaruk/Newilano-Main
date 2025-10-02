@@ -3,7 +3,7 @@ import { Breadcrumbs } from '@/components/Breadcrumbs';
 import styles from './page.module.css';
 import { getBrands } from '@/lib/data';
 
-export const dynamic = 'force-dynamic';
+export const revalidate = 600; // cache for 10 minutes
 
 export const metadata = {
   title: 'Markalar | Newilano'

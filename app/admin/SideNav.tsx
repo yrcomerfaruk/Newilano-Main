@@ -59,6 +59,14 @@ export function SideNav() {
                     </li>
                     <li>
                       <Link
+                        href="/admin/products/import"
+                        className={pathname === '/admin/products/import' ? styles.navSubLinkActive : styles.navSubLink}
+                      >
+                        İçe Aktar
+                      </Link>
+                    </li>
+                    <li>
+                      <Link
                         href="/admin/products/list"
                         className={pathname === '/admin/products/list' ? styles.navSubLinkActive : styles.navSubLink}
                       >

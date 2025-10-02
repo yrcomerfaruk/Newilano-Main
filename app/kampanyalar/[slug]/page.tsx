@@ -5,7 +5,7 @@ import { getCampaignBySlug, getCampaignProductsBySlug } from '@/lib/data';
 import { ProductCard } from '@/components/ProductCard';
 import styles from './page.module.css';
 
-export const dynamic = 'force-dynamic';
+export const revalidate = 600; // cache for 10 minutes
 
 export default async function CampaignDetailPage({ params }: { params: { slug: string } }) {
   const slug = params.slug;

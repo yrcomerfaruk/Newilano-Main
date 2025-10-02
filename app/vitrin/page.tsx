@@ -1,7 +1,7 @@
 import { getAllProducts } from '@/lib/data';
 import { VitrinClient } from './VitrinClient';
 
-export const dynamic = 'force-dynamic';
+export const revalidate = 600; // cache for 10 minutes
 
 export const metadata = {
   title: 'Vitrin | Newilano'

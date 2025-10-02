@@ -107,33 +107,46 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ message: 'Marka bulunamadı.' }, { status: 404 });
   }
 
-  const slug = slugify(name);
-  const existing = await Product.findOne({ slug }).lean();
-  if (existing) {
-    return NextResponse.json({ message: 'Bu ürün zaten mevcut.' }, { status: 409 });
+  let baseSlug = slugify(name);
+  let slug = baseSlug;
+  // ensure uniqueness by incrementing suffix
+  let counter = 2;
+  // Using exists for performance
+  while (await Product.exists({ slug })) {
+    slug = `${baseSlug}-${counter}`;
+    counter += 1;
+    if (counter > 200) {
+      return NextResponse.json({ message: 'Benzersiz slug üretilemedi.' }, { status: 500 });
+    }
   }
 
-  const galleryList = Array.isArray(galleryData) ? galleryData : [];
+  const galleryList = (Array.isArray(galleryData) ? galleryData : []).slice(0, 15);
 
-  const product = await Product.create({
-    name,
-    slug,
-    brand: brand._id,
-    brandName: brand.name,
-    gender,
-    category,
-    price,
-    currency: normalizedCurrency,
-    image: imageData,
-    description,
-    gallery: galleryList,
-    sizes,
-    colors,
-    features,
-    productUrl: normalizedProductUrl,
-    tags,
-    discoverTags: Array.isArray(discoverTags) ? discoverTags : []
-  });
+  let product;
+  try {
+    product = await Product.create({
+      name,
+      slug,
+      brand: brand._id,
+      brandName: brand.name,
+      gender,
+      category,
+      price,
+      currency: normalizedCurrency,
+      image: imageData,
+      description: description?.slice(0, 1200) ?? '',
+      gallery: galleryList,
+      sizes,
+      colors,
+      features,
+      productUrl: normalizedProductUrl,
+      tags,
+      discoverTags: Array.isArray(discoverTags) ? discoverTags : []
+    });
+  } catch (err: any) {
+    const message = err?.message || 'Ürün oluşturulamadı.';
+    return NextResponse.json({ message }, { status: 400 });
+  }
 
   void recordAdminAudit(
     {

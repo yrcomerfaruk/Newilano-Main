@@ -9,7 +9,7 @@ import { ExploreIcon } from '@/components/icons';
 import { getCampaigns, getHeroSlides, getProductsByTag } from '@/lib/data';
 import { slugify } from '@/lib/slugify';
 
-export const dynamic = 'force-dynamic';
+export const revalidate = 300; // cache home for 5 minutes
 
 export default async function Home() {
   const [hype, featured, newest, discounted, campaignData, heroSlides] = await Promise.all([

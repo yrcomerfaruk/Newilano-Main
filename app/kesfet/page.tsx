@@ -1,7 +1,7 @@
 import { getAllProducts, getBrands, type ProductDetail } from '@/lib/data';
 import KesfetClient from './KesfetClient';
 
-export const dynamic = 'force-dynamic';
+export const revalidate = 600; // cache for 10 minutes
 
 export const metadata = {
   title: 'Keşfet | Newilano'

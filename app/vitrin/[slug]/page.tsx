@@ -5,7 +5,7 @@ import { ProductDetailView } from '@/components/ProductDetail';
 import { ProductCarousel } from '@/components/ProductCarousel';
 import { getProductBySlug, getProductRecommendations } from '@/lib/data';
 
-export const dynamic = 'force-dynamic';
+export const revalidate = 300; // cache for 5 minutes
 
 export async function generateMetadata({ params }: { params: { slug: string } }) {
   const product = await getProductBySlug(params.slug);

@@ -6,7 +6,7 @@ import { ProductCarousel } from '@/components/ProductCarousel';
 import { FiGlobe } from 'react-icons/fi';
 import { FaInstagram, FaFacebook, FaYoutube, FaTiktok, FaLinkedin, FaXTwitter } from 'react-icons/fa6';
 
-export const dynamic = 'force-dynamic';
+export const revalidate = 600; // cache for 10 minutes
 
 export default async function BrandDetailPage({ params }: { params: { slug: string } }) {
   const [brand, products] = await Promise.all([
