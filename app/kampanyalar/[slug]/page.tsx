@@ -15,36 +15,37 @@ export default async function CampaignDetailPage({ params }: { params: { slug: s
   const products = await getCampaignProductsBySlug(slug);
 
   return (
-    <main className={`container ${styles.main}`}>
+    <main className={styles.main}>
       <section className={styles.header}>
-        <div className={styles.headerGrid}>
-          <div className={styles.banner}>
-            <Image src={campaign.image} alt={campaign.title} fill sizes="100vw" unoptimized={campaign.image.startsWith('data:image/')} />
-          </div>
-          <div className={styles.content}>
-            <h1 className={styles.title}>{campaign.title}</h1>
-            {typeof campaign.longDescription === 'string' && campaign.longDescription.trim().length > 0 ? (
-              <article className={styles.longText}>{campaign.longDescription}</article>
-            ) : (
-              <p className={styles.lead}>{campaign.description}</p>
-            )}
+        <div className="container">
+          <div className={styles.headerGrid}>
+            <div className={styles.content}>
+              <h1 className={styles.title}>{campaign.title}</h1>
+              {typeof campaign.longDescription === 'string' && campaign.longDescription.trim().length > 0 ? (
+                <article className={styles.longText}>{campaign.longDescription}</article>
+              ) : (
+                <p className={styles.lead}>{campaign.description}</p>
+              )}
+            </div>
           </div>
         </div>
       </section>
 
       {products.length > 0 ? (
         <section>
-          <h2 className={styles.sectionTitle}>Kampanyalı Ürünler</h2>
-          <div className={styles.grid}>
-            {products.map((p) => (
-              <ProductCard
-                key={p.id}
-                product={p}
-                showFavoriteButton={false}
-                showFavoriteLabel={false}
-                showBadges={false}
-              />
-            ))}
+          <div className="container">
+            <h2 className={styles.sectionTitle}>Kampanyalı Ürünler</h2>
+            <div className={styles.grid}>
+              {products.map((p) => (
+                <ProductCard
+                  key={p.id}
+                  product={p}
+                  showFavoriteButton={false}
+                  showFavoriteLabel={false}
+                  showBadges={false}
+                />
+              ))}
+            </div>
           </div>
         </section>
       ) : (

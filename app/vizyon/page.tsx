@@ -1,6 +1,10 @@
 import { Breadcrumbs } from '@/components/Breadcrumbs';
 import styles from './page.module.css';
 
+export const metadata = {
+  title: 'Vizyon | Newilano'
+};
+
 const pillars = [
   {
     title: 'Türk Markalarına Destek',

@@ -7,6 +7,10 @@ import { User } from '@/models/User';
 import styles from './page.module.css';
 import { FavoriteList } from './FavoriteList';
 
+export const metadata = {
+  title: 'Favoriler | Newilano'
+};
+
 export default async function FavoritesPage() {
   const session = await auth();
 

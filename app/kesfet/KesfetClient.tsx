@@ -15,6 +15,7 @@ export default function KesfetClient({ products, brandMap = {} }: Props) {
   const [x, setX] = useState(0); // horizontal gallery offset in px
   const startY = useRef<number | null>(null);
   const startX = useRef<number | null>(null);
+  const rootRef = useRef<HTMLDivElement | null>(null);
   const [imageIndex, setImageIndex] = useState(0);
 
   // Like counts state
@@ -197,6 +198,23 @@ export default function KesfetClient({ products, brandMap = {} }: Props) {
     return () => window.removeEventListener('resize', apply);
   }, []);
 
+  // iOS Safari: disable pull-to-refresh (rubber-band) within Keşfet root only
+  useEffect(() => {
+    const ua = typeof navigator !== 'undefined' ? navigator.userAgent || '' : '';
+    const isIOS = /iPad|iPhone|iPod/.test(ua) || (ua.includes('Mac') && 'ontouchend' in (document as any));
+    if (!isIOS) return;
+    const el = rootRef.current;
+    if (!el) return;
+    const onTouchMove = (e: TouchEvent) => {
+      // Prevent viewport scroll/pull-to-refresh while allowing our own gesture logic
+      e.preventDefault();
+    };
+    el.addEventListener('touchmove', onTouchMove, { passive: false });
+    return () => {
+      el.removeEventListener('touchmove', onTouchMove as any);
+    };
+  }, []);
+
   // comments removed
 
   const [introError, setIntroError] = useState<string | null>(null);
@@ -229,7 +247,7 @@ export default function KesfetClient({ products, brandMap = {} }: Props) {
   // (Defined earlier at top-level to keep hooks order stable)
 
   return (
-    <div className={styles.root}>
+    <div className={styles.root} ref={rootRef}>
       {showIntro && (
         <div className={styles.introRoot}>
           <div className={styles.introBackWrap}>

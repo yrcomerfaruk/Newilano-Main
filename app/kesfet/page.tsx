@@ -3,6 +3,10 @@ import KesfetClient from './KesfetClient';
 
 export const dynamic = 'force-dynamic';
 
+export const metadata = {
+  title: 'Keşfet | Newilano'
+};
+
 function shuffle<T>(arr: T[]): T[] {
   const a = arr.slice();
   for (let i = a.length - 1; i > 0; i--) {

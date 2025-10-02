@@ -106,14 +106,14 @@
     min-height: 2rem; /* Match mobile icon button height */
   }
 
-/* iOS mobile: align with 44x44pt targets and larger icon size */
+/* Mobile: match navbar icon sizes (consistent across platforms) */
 @media (max-width: 768px) {
-  :global(html.is-ios) .mobileTrigger {
-    width: 44px;
-    height: 44px;
+  .mobileTrigger {
+    width: 1.8rem;
+    height: 1.8rem;
   }
 
-  :global(html.is-ios) .mobileTrigger :global(svg) {
-    font-size: 24px;
+  .mobileTrigger :global(svg) {
+    font-size: 18px;
   }
 }

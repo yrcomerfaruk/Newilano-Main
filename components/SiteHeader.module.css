@@ -142,18 +142,18 @@
 
   .inner {
     justify-content: space-between;
-    padding: 0.9rem 1rem 1.2rem;
-    row-gap: 1rem;
+    padding: 0.6rem 0.85rem 0.8rem;
+    row-gap: 0.6rem;
   }
 
   .nav {
     order: 3;
     width: 100%;
     justify-content: start;
-    gap: 0.75rem;
+    gap: 0.5rem;
     overflow-x: auto;
-    padding-bottom: 0.25rem;
-    margin-top: 0.25rem;
+    padding-bottom: 0.1rem; /* ensure underline has breathing room */
+    margin-top: 0;
     font-size: 0.85rem;
     flex-wrap: nowrap;
   }
@@ -164,23 +164,43 @@
 
   .actions {
     margin-left: auto;
-    gap: 0.5rem;
+    gap: 0.4rem;
   }
 
   .iconButton {
-    width: 2rem;
-    height: 2rem;
+    width: 1.8rem;
+    height: 1.8rem;
   }
 
   .iconButton :global(svg) {
     width: 1em;
     height: 1em;
-    font-size: 20px;
+    font-size: 18px;
+  }
+
+  /* Equalize Favorites icon size with others on mobile */
+  .favoriteButton :global(svg) {
+    font-size: 18px;
+  }
+
+  /* Ensure platform-specific classes do not upsize/downsize on mobile */
+  :global(html.is-ios) .iconButton :global(svg) {
+    font-size: 18px;
+  }
+  :global(html.is-android) .favoriteButton :global(svg) {
+    font-size: 18px;
   }
 
   .link,
   .linkActive {
     padding: 0.3rem 0.55rem;
+  }
+
+  /* Make sure the active underline is not clipped on mobile */
+  .linkActive::after {
+    bottom: 0;
+    left: 0.35rem;
+    right: 0.35rem;
   }
 }
 

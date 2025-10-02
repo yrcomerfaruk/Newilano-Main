@@ -1,7 +1,6 @@
 import { CampaignSection } from '@/components/CampaignSection';
 import { HeroSection } from '@/components/HeroSection';
 import { ProductCarousel } from '@/components/ProductCarousel';
-import { GenderBar } from '@/components/GenderBar';
 import { ProductGridSection } from '@/components/ProductGridSection';
 import styles from './page.module.css';
 import Link from 'next/link';
@@ -17,14 +16,13 @@ export default async function Home() {
     getProductsByTag('ONE_CIKAN', 20),
     getProductsByTag('YENI', 20),
     getProductsByTag('INDIRIMDE', 20),
-    getCampaigns(3),
+    getCampaigns(8),
     getHeroSlides()
   ]);
 
   return (
     <main className={styles.main}>
       <HeroSection slides={heroSlides} />
-      <GenderBar />
       <ProductCarousel title="En Hype Ürünler" products={hype} viewAllHref="/vitrin?tag=HYPE" />
       <ProductCarousel title="Öne Çıkan Ürünler" products={featured} viewAllHref="/vitrin?tag=ONE_CIKAN" />
       <ProductCarousel title="En Yeni Ürünler" products={newest} viewAllHref="/vitrin?tag=YENI" />

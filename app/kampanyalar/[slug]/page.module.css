@@ -1,15 +1,29 @@
 .main {
-  padding: 1rem 0 2rem;
+  padding: 0 0 2rem; /* remove top gap so header touches navbar */
 }
 
 .header {
   display: grid;
   gap: 1rem;
+  padding: 35px 0 28px; /* larger top space between navbar and text */
+  position: relative; /* to anchor pseudo background */
+}
+
+/* Full-bleed gradient background spanning viewport width */
+.header::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 100vw;
+  background: linear-gradient(180deg, rgba(17,24,39,0.06), rgba(17,24,39,0));
+  z-index: -1;
 }
 
 .headerGrid {
   display: grid;
-  grid-template-columns: 1fr;
+  grid-template-columns: 1fr; /* single column (banner removed) */
   gap: 1.25rem;
 }
 
@@ -17,17 +31,20 @@
   position: relative;
   width: 100%;
   aspect-ratio: 16 / 9;
-  border-radius: 14px;
+  border-radius: 10px; /* softer, simpler */
   overflow: hidden;
   background: #f3f4f6;
-  box-shadow: 0 8px 24px rgba(0,0,0,0.06);
+  box-shadow: 0 6px 16px rgba(0,0,0,0.05); /* lighter shadow */
+  max-width: 900px; /* desktop: narrower visual for side whitespace */
+  margin-inline: auto;
 }
 
 .content {
   display: grid;
   align-content: start;
   gap: 0.75rem;
-  padding: 0.25rem 0.25rem 0.25rem 0.5rem;
+  padding: 0; /* flush left */
+  margin-bottom: 1.25rem; /* space before products */
 }
 
 .title {
@@ -54,16 +71,16 @@
 }
 
 .sectionTitle {
-  margin: 0 0 1rem;
-  font-size: 14px;
+  margin: 0.5rem 0 1rem;
+  font-size: 1.6rem; /* match home ProductCarousel title */
   font-weight: 600;
-  color: var(--text-secondary, #6b7280);
+  color: #111827;
 }
 
 .grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-  gap: 1.5rem; /* match vitrin spacing */
+  grid-template-columns: repeat(2, minmax(0, 1fr)); /* default: 2 columns */
+  gap: 1.25rem; /* slightly tighter for responsiveness */
 }
 
 .backLink {
@@ -86,15 +103,25 @@
 
 @media (max-width: 768px) {
   .title { font-size: 1.25rem; }
-  .sectionTitle { font-size: 0.95rem; }
-  .grid { grid-template-columns: repeat(2, 1fr); gap: 1rem; } /* match vitrin mobile */
+  .sectionTitle { font-size: 1.25rem; }
+  .grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1rem; }
+}
+
+@media (min-width: 700px) {
+  .grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+}
+
+@media (min-width: 1024px) {
+  .grid { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+}
+
+@media (min-width: 1280px) {
+  .grid { grid-template-columns: repeat(5, minmax(0, 1fr)); }
 }
 
 @media (min-width: 960px) {
-  .headerGrid {
-    grid-template-columns: 1.618fr 1fr; /* golden ratio split */
-    align-items: center;
-  }
-  .content { padding: 0 0 0 0.75rem; }
+  .main { padding: 0 0 2rem; } /* remove top gap so header touches navbar on desktop */
+  .headerGrid { grid-template-columns: 1fr; } /* ensure single column on desktop */
+  .content { padding: 0; margin-bottom: 1.5rem; }
   .title { font-size: 1.875rem; }
 }

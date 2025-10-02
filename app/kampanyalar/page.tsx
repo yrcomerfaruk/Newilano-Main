@@ -6,6 +6,10 @@ import { getCampaigns } from '@/lib/data';
 
 export const dynamic = 'force-dynamic';
 
+export const metadata = {
+  title: 'Kampanyalar | Newilano'
+};
+
 export default async function KampanyalarPage() {
   const campaigns = await getCampaigns();
   return (
