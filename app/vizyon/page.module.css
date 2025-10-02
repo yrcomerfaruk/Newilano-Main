@@ -5,6 +5,11 @@
   gap: 3rem;
 }
 
+.content {
+  max-width: 760px;
+  margin: 0 auto;
+}
+
 .hero {
   padding: 3rem 0 2rem;
   background: var(--surface);
@@ -12,7 +17,7 @@
 }
 
 .heroContent {
-  max-width: 720px;
+  max-width: 640px;
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
@@ -26,86 +31,43 @@
 .heroContent p {
   margin: 0;
   color: var(--text-secondary);
-  line-height: 1.7;
+  line-height: 1.6;
   font-size: 15px;
 }
 
-.columns {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-  gap: 2rem;
+.article section {
+  margin-bottom: 2.5rem;
 }
 
-.block {
-  background: #ffffff;
-  padding: 2rem;
-  border-radius: 1.75rem;
-  border: 1px solid rgba(148, 163, 184, 0.18);
-  box-shadow: var(--card-shadow);
-  display: flex;
-  flex-direction: column;
-  gap: 0.75rem;
+.article h2 {
+  font-size: 1.75rem;
+  font-weight: 600;
+  margin: 0 0 1rem;
+  color: #1f2937;
 }
 
-.block h2 {
-  margin: 0;
-  font-size: 1.3rem;
-}
-
-.block p {
-  margin: 0;
-  color: var(--text-secondary);
-  line-height: 1.6;
-}
-
-.timeline {
-  display: grid;
-  gap: 1.5rem;
-  margin-top: 2.5rem;
-}
-
-.timelineItem {
-  background: #ffffff;
-  padding: 1.5rem;
-  border-radius: 1.5rem;
-  border: 1px solid rgba(148, 163, 184, 0.18);
-  box-shadow: var(--card-shadow);
-}
-
-.timelineItem h3 {
-  margin: 0 0 0.4rem;
+.article p {
   font-size: 1rem;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  color: var(--text-secondary);
+  line-height: 1.75;
+  color: #374151;
+  margin: 0;
 }
 
-.timelineItem p {
-  margin: 0;
-  color: var(--text-primary);
-  line-height: 1.6;
+/* Add a bit more space between paragraphs if needed in the future */
+.article p + p {
+  margin-top: 1.25rem;
 }
 
 @media (max-width: 640px) {
   .hero {
-    padding: 2.5rem 0 1.8rem;
+    padding: 2.4rem 0 1.8rem;
   }
 
-
-  .columns {
-    gap: 1.5rem;
+  .content {
+    padding-inline: 1rem;
   }
 
-  .block {
-    padding: 1.6rem;
-  }
-
-  .timeline {
-    gap: 1.2rem;
-    margin-top: 2rem;
-  }
-
-  .timelineItem {
-    padding: 1.25rem;
+  .article h2 {
+    font-size: 1.5rem;
   }
 }

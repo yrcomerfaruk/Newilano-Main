@@ -1,78 +1,46 @@
-import { Breadcrumbs } from '@/components/Breadcrumbs';
 import styles from './page.module.css';
 
 export const metadata = {
-  title: 'Vizyon | Newilano'
+  title: 'Vizyon | Newilano',
 };
-
-const pillars = [
-  {
-    title: 'Türk Markalarına Destek',
-    description:
-      '2025 yılında kurulan Newilano, yerli markaların emeğini görünür kılmak için kar gözetmeyen bir vitrin oluşturur.'
-  },
-  {
-    title: 'Şeffaf Hikaye Anlatımı',
-    description:
-      'Markaların tasarım hikayelerini ve üretim süreçlerini sponsorluk almadan, olduğu gibi topluluğumuzla paylaşırız.'
-  },
-  {
-    title: 'Erişilebilir Tanıtım',
-    description:
-      'Ürünleri değerlendirme, deneme ve içerik üretimindeki maliyetleri biz üstlenir, üreticilerin yükünü hafifletiriz.'
-  }
-];
-
-const roadmap = [
-  {
-    year: '2025',
-    text: 'Newilano, Türk markalarının hikayelerini kar amacı gütmeden tanıtmak amacıyla kuruldu.'
-  },
-  {
-    year: 'Bugün',
-    text: 'Topluluğumuza güvenilir içerik sağlamak için koleksiyonları tanıtmaya ve üreticilerle dayanışmaya devam ediyoruz.'
-  },
-  {
-    year: 'Gelecek',
-    text: 'Planlanmış bir takvim yok; ihtiyaca göre projeler geliştirip markaların yanında olmayı sürdüreceğiz.'
-  }
-];
 
 export default function VizyonPage() {
   return (
     <main className={styles.main}>
       <section className={styles.hero}>
         <div className="container">
-
           <div className={styles.heroContent}>
-            <h1>Vizyon</h1>
+            <h1>Vizyonumuz</h1>
             <p>
-              Newilano, 2025 yılında kurulmuş kar amacı gütmeyen bir vitrin olarak Türk markalarının ürünlerini
-              tanıtmayı ve hikayelerini görünür kılmayı amaçlar. Gelir hedefi olmadan üreticilerin emeğini anlatır,
-              topluluğumuza güvenilir bir keşif alanı sunar.
+              Türkiye'nin değerli moda markalarını dünyaya açılan bir vitrinde buluşturuyoruz.
             </p>
           </div>
         </div>
       </section>
 
-      <div className="container">
-        <section className={styles.columns}>
-          {pillars.map((pillar) => (
-            <article key={pillar.title} className={styles.block}>
-              <h2>{pillar.title}</h2>
-              <p>{pillar.description}</p>
-            </article>
-          ))}
-        </section>
+      <div className={styles.content}>
+        <article className={styles.article}>
+          <section>
+            <h2>Hikayemiz</h2>
+            <p>
+              Newilano, 2022 yılında Türk moda markalarının özgün tasarımlarını ve kaliteli ürünlerini daha geniş kitlelere ulaştırma tutkusuyla kuruldu. Yolculuğumuz, yerel üreticilerin emeğini ve yaratıcılığını hem yurt içinde hem de uluslararası arenada sergilemek için bir platform oluşturma fikriyle başladı. Sadece bir e-ticaret sitesi değil, aynı zamanda markaların hikayelerini anlatan bir topluluk olmayı hedefledik.
+            </p>
+          </section>
 
-        <section className={styles.timeline}>
-          {roadmap.map((item) => (
-            <article key={item.year} className={styles.timelineItem}>
-              <h3>{item.year}</h3>
-              <p>{item.text}</p>
-            </article>
-          ))}
-        </section>
+          <section>
+            <h2>Misyonumuz</h2>
+            <p>
+              Temel misyonumuz, özenle seçilmiş Türk moda markalarını keşfedilir kılmak ve onların global pazarda hak ettikleri yeri almalarına yardımcı olmaktır. Bu doğrultuda, platformumuzda yalnızca estetik ve kalite standartlarımıza uygun, kendi alanında fark yaratan markalara yer veriyoruz. Amacımız, müşterilerimize benzersiz bir seçki sunarken, iş ortaklarımızın da sürdürülebilir bir büyüme yakalamasını sağlamaktır.
+            </p>
+          </section>
+
+          <section>
+            <h2>Gelecek Vizyonumuz</h2>
+            <p>
+              İlerleyen süreçte Newilano'yu, daha fazla Türk markasının katılabileceği dinamik bir pazaryerine dönüştürmeyi hedefliyoruz. Bu dönüşümle birlikte, üreticilere daha fazla kontrol ve esneklik sunarak kendi mağazalarını yönetmelerine olanak tanıyacağız. Teknolojiyi ve yenilikçi pazarlama stratejilerini kullanarak, Türkiye'nin moda endüstrisine hizmet eden lider bir ekosistem yaratmayı ve markalarımızın global başarı hikayelerine yenilerini eklemeyi amaçlıyoruz.
+            </p>
+          </section>
+        </article>
       </div>
     </main>
   );

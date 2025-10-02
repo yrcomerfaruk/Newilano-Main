@@ -66,7 +66,7 @@ export function FavoriteButton({ productSlug, className, activeClassName, showLa
   const disabled = status === 'loading' || initialising || pending;
 
   const buttonClassName = useMemo(() => {
-    const classes = [className];
+    const classes = [styles.favoriteButton, className];
     if (isFavorite) {
       classes.push(activeClassName);
     }

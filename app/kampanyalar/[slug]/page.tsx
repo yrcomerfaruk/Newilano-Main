@@ -18,6 +18,11 @@ export default async function CampaignDetailPage({ params }: { params: { slug: s
     <main className={styles.main}>
       <section className={styles.header}>
         <div className="container">
+          <div className={styles.topRight}>
+            <Link href="/kampanyalar" className={styles.topRightLink}>
+              Kampanyalara Dön
+            </Link>
+          </div>
           <div className={styles.headerGrid}>
             <div className={styles.content}>
               <h1 className={styles.title}>{campaign.title}</h1>
@@ -52,11 +57,7 @@ export default async function CampaignDetailPage({ params }: { params: { slug: s
         <p className={styles.lead}>Bu kampanyaya bağlı ürün bulunmuyor.</p>
       )}
 
-      <div>
-        <Link href="/kampanyalar" className={styles.backLink}>
-          ← Tüm kampanyalara dön
-        </Link>
-      </div>
+
     </main>
   );
 }

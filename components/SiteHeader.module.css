@@ -19,7 +19,7 @@
   }
 
   :global(html.is-ios) .favoriteButton :global(svg) {
-    font-size: 20px; /* still slightly smaller than others */
+    font-size: 24px; /* still slightly smaller than others */
   }
 }
 
@@ -76,7 +76,7 @@
 .actions {
   display: flex;
   align-items: center;
-  gap: 0.35rem;
+  gap: 0.1rem;
 }
 
 .iconButton {
@@ -164,7 +164,7 @@
 
   .actions {
     margin-left: auto;
-    gap: 0.4rem;
+    gap: 0.1rem;
   }
 
   .iconButton {

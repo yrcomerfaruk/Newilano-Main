@@ -145,9 +145,11 @@ export function ProductDetailView({ product }: Props) {
       )}
 
       <div className={styles.info}>
-        <span className={styles.brand}>{product.brand}</span>
-        <h1 className={styles.title}>{product.name}</h1>
-        <p className={styles.price}>{product.price}</p>
+        <div className={styles.headerInfo}>
+          <span className={styles.brand}>{product.brand}</span>
+          <h1 className={styles.title}>{product.name}</h1>
+          <p className={styles.price}>{product.price}</p>
+        </div>
         <p className={styles.description}>{product.description}</p>
 
         <div className={styles.ctaGroup}>

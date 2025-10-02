@@ -83,22 +83,23 @@
   gap: 1.25rem; /* slightly tighter for responsiveness */
 }
 
-.backLink {
-  display: inline-block;
-  margin-top: 1.25rem;
-  text-decoration: none;
-  color: #111827;
-  transition: all 0.2s ease;
-  padding: 0.5rem 0.875rem;
-  border: 1px solid #e5e7eb;
-  border-radius: 999px;
-  background: #ffffff;
+.topRight {
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 1.5rem;
 }
 
-.backLink:hover {
-  color: #111827;
-  border-color: #d1d5db;
-  background: #f9fafb;
+.topRightLink {
+  color: #111;
+  text-decoration: none;
+  font-size: 13px;
+  opacity: 0.95;
+  font-weight: 500;
+}
+
+.topRightLink:hover {
+  opacity: 1;
+  text-decoration: underline;
 }
 
 @media (max-width: 768px) {

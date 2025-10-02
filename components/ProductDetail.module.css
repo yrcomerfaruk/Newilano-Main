@@ -57,9 +57,9 @@
   width: 6px;
   height: 6px;
   border-radius: 50%;
-  background: rgba(17,17,17,0.35);
+  background: #d1d5db; /* Solid light gray */
 }
-.hintDotActive { background: #111111; }
+.hintDotActive { background: #4b5563; /* Solid dark gray */ }
 
 /* Desktop navigation arrows */
 .navArrow {
@@ -151,25 +151,29 @@
   max-width: 560px; /* metin tarafını da sınırla */
 }
 
+.headerInfo {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem; /* Bring brand, title, price closer */
+}
+
 .brand {
   text-transform: none; /* yazıldığı gibi göster */
   letter-spacing: normal;
-  font-size: 20px; /* sabit boyut */
+  font-size: 16px; /* Reduced from 20px */
   color: var(--text-secondary);
-  margin-bottom: 0.1rem;
 }
 
 .title {
   margin: 0;
-  font-size: 30px; /* sabit boyut */
-  line-height: 1.1;
-  margin-bottom: 0.15rem; /* fiyata yaklaşsın */
+  font-size: 24px; /* Reduced from 30px */
+  line-height: 1.2;
 }
 
 .price {
-  font-size: 20px; /* sabit boyut */
+  font-size: 18px; /* Reduced from 20px */
   font-weight: 700;
-  margin: 0.1rem 0 0; /* başlığa yakın */
+  margin: 0;
 }
 
 .description {

@@ -1,0 +1,70 @@
+.banner {
+  position: fixed;
+  bottom: 1rem;
+  left: 1rem;
+  right: 1rem;
+  max-width: 420px;
+  background-color: #ffffff;
+  color: #374151;
+  padding: 1.25rem;
+  border-radius: 1rem;
+  border: 1px solid #e5e7eb;
+  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1);
+  z-index: 1000;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  opacity: 0;
+  transform: translateY(20px);
+  animation: slide-up 0.5s 0.5s forwards ease-out;
+}
+
+.bannerVisible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.text {
+  font-size: 0.9rem;
+  line-height: 1.6;
+}
+
+.text a {
+  color: #111827;
+  text-decoration: underline;
+}
+
+.button {
+  background-color: #111827;
+  color: #ffffff;
+  border: none;
+  padding: 0.75rem 1.25rem;
+  border-radius: 999px;
+  font-weight: 600;
+  cursor: pointer;
+  align-self: flex-start;
+  transition: background-color 0.2s ease;
+}
+
+.button:hover {
+  background-color: #374151;
+}
+
+@keyframes slide-up {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media (max-width: 480px) {
+  .banner {
+    left: 0.5rem;
+    right: 0.5rem;
+    bottom: 0.5rem;
+  }
+}

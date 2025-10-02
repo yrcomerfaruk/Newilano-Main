@@ -1,3 +1,15 @@
+.favoriteButton {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  padding: 0;
+  color: inherit;
+}
+
 .buttonPending {
   opacity: 0.7;
   cursor: progress;
