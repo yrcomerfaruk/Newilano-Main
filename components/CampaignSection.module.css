@@ -13,6 +13,12 @@
   grid-template-columns: 1fr;
 }
 
+.cardLink {
+  text-decoration: none;
+  color: inherit;
+  display: block; /* Ensure the link takes up the full article space */
+}
+
 @media (min-width: 768px) {
   .grid {
     grid-template-columns: repeat(2, 1fr);
@@ -26,6 +32,8 @@
   border: 1px solid rgba(148, 163, 184, 0.18);
   display: flex;
   flex-direction: column;
+  position: relative; /* For positioning the arrow */
+  height: 100%; /* Ensure cards in a row are same height */
 }
 
 .imageWrap {
@@ -41,10 +49,19 @@
 .info {
   padding: 0.6rem 0.8rem; /* slightly bigger area */
   display: flex;
-  flex-direction: column;
-  gap: 0.25rem; /* tight vertical gap */
+  flex-direction: row; /* Changed to row */
+  align-items: center; /* Vertically center align items */
+  justify-content: space-between; /* Push text and arrow apart */
+  gap: 0.5rem;
   min-height: 65px; /* target ~65px text area */
-  justify-content: center; /* position text nicely within fixed height */
+}
+
+.arrowIcon {
+  width: 20px;
+  height: 20px;
+  color: #888;
+  flex-shrink: 0; /* Prevent arrow from shrinking */
+  transition: transform 0.2s ease;
 }
 
 .info h3 {

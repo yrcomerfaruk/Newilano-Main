@@ -4,6 +4,7 @@ import { Providers } from '@/components/Providers';
 import { FooterController } from '@/components/FooterController';
 import { HeaderController } from '@/components/HeaderController';
 import { CookieBanner } from '@/components/CookieBanner';
+import { ScrollToTopButton } from '@/components/ScrollToTopButton';
 import { auth } from '@/lib/auth';
 import './globals.css';
 
@@ -44,6 +45,7 @@ export default async function RootLayout({
           {children}
           <FooterController />
           <CookieBanner />
+          <ScrollToTopButton />
         </Providers>
       </body>
     </html>

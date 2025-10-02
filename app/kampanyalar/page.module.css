@@ -20,14 +20,14 @@
 
 .heroContent h1 {
   margin: 0;
-  font-size: 27px;
+  font-size: 24px;
 }
 
 .heroContent p {
   margin: 0;
   color: var(--text-secondary);
   line-height: 1.6;
-  font-size: 15px;
+  font-size: 14px;
 }
 
 .grid {
@@ -44,7 +44,7 @@
 
 .card {
   background: #ffffff;
-  border-radius: 10px; /* align with home cards: less rounded */
+  border-radius: 0; /* sharp corners */
   overflow: hidden;
   border: 1px solid rgba(148, 163, 184, 0.18);
   display: flex;

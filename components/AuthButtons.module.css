@@ -117,3 +117,15 @@
     font-size: 18px;
   }
 }
+
+/* iOS mobile: match navbar icon touch targets */
+@media (max-width: 768px) {
+  :global(html.is-ios) .mobileTrigger {
+    width: 44px;
+    height: 44px;
+  }
+
+  :global(html.is-ios) .mobileTrigger :global(svg) {
+    font-size: 24px;
+  }
+}

@@ -1,0 +1,60 @@
+.section {
+  padding: 3rem 1rem;
+  background-color: #ffffff; /* Simple white background */
+}
+
+.header {
+  text-align: center;
+  margin-bottom: 2.5rem;
+}
+
+.title {
+  font-size: 1.5rem;
+  font-weight: 600;
+  margin: 0 0 0.5rem;
+}
+
+.subtitle {
+  font-size: 1rem;
+  color: #6b7280;
+  max-width: 560px;
+  margin: 0 auto;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 2rem;
+  max-width: 1120px;
+  margin: 0 auto;
+}
+
+.step {
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+}
+
+.iconWrapper {
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  background-color: #f3f4f6; /* Light gray circle */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #111827;
+}
+
+.stepTitle {
+  font-size: 1rem;
+  font-weight: 600;
+  margin: 0;
+}
+
+.stepDescription {
+  color: #4b5563;
+  line-height: 1.6;
+}

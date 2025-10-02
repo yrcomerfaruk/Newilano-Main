@@ -2,6 +2,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import styles from './CampaignSection.module.css';
 import type { Campaign } from '@/lib/data';
+import { RightArrowIcon } from './icons';
 
 export function CampaignSection({ campaigns }: { campaigns: Campaign[] }) {
   return (
@@ -15,21 +16,26 @@ export function CampaignSection({ campaigns }: { campaigns: Campaign[] }) {
         </div>
         <div className={styles.grid}>
           {campaigns.map((campaign) => (
-            <article key={campaign.id} className={styles.card}>
-              <div className={styles.imageWrap}>
-                <Image
-                  src={campaign.image}
-                  alt={campaign.title}
-                  fill
-                  sizes="(max-width: 768px) 100vw, 33vw"
-                  unoptimized={campaign.image.startsWith('data:image/')}
-                />
-              </div>
-              <div className={styles.info}>
-                <h3>{campaign.title}</h3>
-                <p>{campaign.description}</p>
-              </div>
-            </article>
+            <Link key={campaign.id} href={`/kampanyalar/${campaign.slug}`} className={styles.cardLink}>
+              <article className={styles.card}>
+                <div className={styles.imageWrap}>
+                  <Image
+                    src={campaign.image}
+                    alt={campaign.title}
+                    fill
+                    sizes="(max-width: 768px) 100vw, 33vw"
+                    unoptimized={campaign.image.startsWith('data:image/')}
+                  />
+                </div>
+                <div className={styles.info}>
+                  <div>
+                    <h3>{campaign.title}</h3>
+                    <p>{campaign.description}</p>
+                  </div>
+                  <RightArrowIcon className={styles.arrowIcon} />
+                </div>
+              </article>
+            </Link>
           ))}
         </div>
       </div>

@@ -1,0 +1,39 @@
+.button {
+  position: fixed;
+  bottom: 1rem;
+  right: 1rem;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background-color: #ffffff;
+  color: #111827;
+  border: 1px solid #e5e7eb;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 999;
+  opacity: 0;
+  transform: translateY(10px);
+  transition: opacity 0.3s ease, transform 0.3s ease;
+  visibility: hidden;
+}
+
+.visible {
+  opacity: 1;
+  transform: translateY(0);
+  visibility: visible;
+}
+
+.button:hover {
+  background-color: #f9fafb;
+  border-color: #d1d5db;
+}
+
+/* FAB butonuyla çakışmaması için mobilde biraz yukarı alalım */
+@media (max-width: 600px) {
+  .button {
+    bottom: 5rem; /* fabKesfet butonuyla çakışmasın */
+  }
+}
