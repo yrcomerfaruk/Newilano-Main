@@ -5,7 +5,7 @@ import styles from './page.module.css';
 import type { ProductDetail } from '@/lib/data';
 import Link from 'next/link';
 import { FavoriteButton } from '@/components/FavoriteButton';
-import { ShareIcon, ProductIcon, LeftArrowIcon, RightArrowIcon } from '@/components/icons';
+import { ShareIcon, ProductIcon, LeftArrowIcon, RightArrowIcon, EyeIcon } from '@/components/icons';
 import { Logo } from '@/components/Logo';
 
 type Props = { products: ProductDetail[]; brandMap?: Record<string, { name: string; logo?: string; slug: string }> };
@@ -405,7 +405,7 @@ export default function KesfetClient({ products, brandMap = {} }: Props) {
                     } catch {}
                   }}
                 >
-                  <ProductIcon width={22} height={22} />
+                  <EyeIcon width={22} height={22} />
                 </Link>
                 <span className={styles.countLabel}>{visitCount}</span>
               </div>
@@ -519,7 +519,7 @@ export default function KesfetClient({ products, brandMap = {} }: Props) {
                       } catch {}
                     }}
                   >
-                    <ProductIcon width={22} height={22} />
+                    <EyeIcon width={22} height={22} />
                   </Link>
                   <span className={styles.countLabel}>{visitCount}</span>
                 </div>

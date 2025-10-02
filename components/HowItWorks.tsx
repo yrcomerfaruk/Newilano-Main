@@ -3,17 +3,17 @@ import { EyeIcon, ExternalLinkIcon, BagIcon } from './icons';
 
 const steps = [
   {
-    icon: <EyeIcon width={24} height={24} />,
+    icon: <EyeIcon width={20} height={20} />,
     title: '1. Ürünü İncele',
     description: 'Platformumuzdaki kürate edilmiş ürünleri ve marka hikayelerini keşfedin. Beğendiğiniz ürünlerin detaylarına göz atın.',
   },
   {
-    icon: <ExternalLinkIcon width={24} height={24} />,
+    icon: <ExternalLinkIcon width={20} height={20} />,
     title: '2. Markanın Sitesine Git',
     description: "Ürünü satın almak için 'Ürünü İncele' butonuyla doğrudan markanın kendi resmi web sitesine güvenle yönlendirilirsiniz.",
   },
   {
-    icon: <BagIcon width={24} height={24} />,
+    icon: <BagIcon width={20} height={20} />,
     title: '3. Satın Al',
     description: 'Alışverişinizi markanın kendi platformu üzerinden tamamlayarak hem markaya doğrudan destek olun hem de güvenli alışverişin tadını çıkarın.',
   },

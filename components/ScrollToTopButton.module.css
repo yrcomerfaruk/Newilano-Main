@@ -34,6 +34,6 @@
 /* FAB butonuyla çakışmaması için mobilde biraz yukarı alalım */
 @media (max-width: 600px) {
   .button {
-    bottom: 5rem; /* fabKesfet butonuyla çakışmasın */
+    bottom: 1rem; /* Align with fabKesfet button */
   }
 }
